@@ -1,0 +1,9 @@
+# Betriebssystem
+.DS_Store
+Thumbs.db
+
+# Python (Bild-Skript)
+__pycache__/
+*.pyc
+.venv/
+venv/
