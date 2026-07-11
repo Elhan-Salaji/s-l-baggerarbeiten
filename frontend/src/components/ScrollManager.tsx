@@ -2,10 +2,11 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
 /**
- * Stellt beim Seitenwechsel die Scroll-Position her: mit Anker in der
- * Adresse zum Ziel, sonst an den Seitenanfang. Anker-Klicks innerhalb
- * derselben Seite scrollt der Browser selbst (CSS scroll-behavior),
- * deshalb reagiert der Effekt bewusst nur auf den Pfad.
+ * Stellt bei jeder Navigation die Scroll-Position her: mit Anker in der
+ * Adresse zum Ziel, sonst an den Seitenanfang. Bei Anker-Klicks auf
+ * derselben Seite scrollt zusätzlich der Browser selbst — beide zielen
+ * auf dasselbe Element, scroll-padding-top wird in beiden Fällen
+ * berücksichtigt.
  */
 function ScrollManager() {
   const { pathname, hash } = useLocation()
@@ -16,8 +17,7 @@ function ScrollManager() {
     } else {
       window.scrollTo(0, 0)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
+  }, [pathname, hash])
 
   return null
 }
