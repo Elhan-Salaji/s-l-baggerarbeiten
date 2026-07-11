@@ -5,8 +5,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     // Kontakt-API in der Entwicklung: das lokal laufende Backend.
+    // Läuft es auf einem anderen Port, VITE_API_PROXY setzen.
     proxy: {
-      '/api': 'http://localhost:8080',
+      '/api': process.env.VITE_API_PROXY ?? 'http://localhost:8080',
     },
   },
 })
