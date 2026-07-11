@@ -1,0 +1,64 @@
+# Produktionsbetrieb auf dem Server:
+#   cp .env.example .env   # einmalig ausfüllen
+#   docker compose up -d --build
+# Nur Caddy ist von außen erreichbar, Frontend und Backend leben im
+# internen Netz. Die Zertifikate überleben im Volume caddy_data.
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp" # HTTP/3
+    environment:
+      ACME_EMAIL: ${ACME_EMAIL}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      frontend:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
+    networks:
+      - web
+
+  frontend:
+    build: ../frontend
+    restart: unless-stopped
+    networks:
+      - web
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  backend:
+    build: ../backend
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USERNAME: ${SMTP_USERNAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      MAIL_FROM: ${MAIL_FROM}
+      MAIL_RECIPIENT: ${MAIL_RECIPIENT}
+    networks:
+      - web
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  web:

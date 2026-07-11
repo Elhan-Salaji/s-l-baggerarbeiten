@@ -1,0 +1,43 @@
+# Lokale Entwicklung und Verprobung. Alle Dienste teilen sich das
+# Standard-Netz, die Trennung in ein internes Netz ist Sache der
+# Produktion (compose.yml).
+#
+# Tägliche Entwicklung (Backend und Frontend laufen auf dem Rechner):
+#   docker compose -f compose.dev.yml up -d mailpit
+#   cd ../backend  && ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+#   cd ../frontend && npm run dev
+#
+# Kompletter Stack wie in Produktion, nur mit lokalem Zertifikat:
+#   docker compose -f compose.dev.yml up -d --build
+#   https://localhost:8443 (Zertifikatswarnung ist hier normal)
+#
+# Sind Standard-Ports auf dem Rechner belegt, vor dem Start setzen:
+#   MAILPIT_SMTP_PORT, MAILPIT_UI_PORT, DEV_HTTPS_PORT
+services:
+  mailpit:
+    image: axllent/mailpit
+    ports:
+      - "${MAILPIT_SMTP_PORT:-1025}:1025"
+      - "${MAILPIT_UI_PORT:-8025}:8025"
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "${DEV_HTTPS_PORT:-8443}:8443"
+    volumes:
+      - ./Caddyfile.dev:/etc/caddy/Caddyfile:ro
+    depends_on:
+      - frontend
+      - backend
+
+  frontend:
+    build: ../frontend
+
+  backend:
+    build: ../backend
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SMTP_HOST: mailpit
+      SMTP_PORT: 1025
+      MAIL_RECIPIENT: betreiber@example.de
+      MAIL_FROM: noreply@example.de
