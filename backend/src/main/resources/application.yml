@@ -1,0 +1,26 @@
+# Basiskonfiguration. Alle Zugangsdaten kommen aus Umgebungsvariablen,
+# die Vorgabewerte passen zur lokalen Entwicklung mit Mailpit.
+spring:
+  application:
+    name: backend
+  mail:
+    host: ${SMTP_HOST:localhost}
+    port: ${SMTP_PORT:1025}
+    username: ${SMTP_USERNAME:}
+    password: ${SMTP_PASSWORD:}
+    properties:
+      "[mail.smtp.connectiontimeout]": 5000
+      "[mail.smtp.timeout]": 10000
+      "[mail.smtp.writetimeout]": 10000
+
+app:
+  kontakt:
+    recipient: ${MAIL_RECIPIENT:kontakt@localhost}
+    from: ${MAIL_FROM:noreply@localhost}
+
+# Nur der Health-Endpoint ist offen, er dient dem Container-Healthcheck.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
