@@ -63,17 +63,13 @@ function DatenschutzPage() {
 
       <h2>4. Versand des Kontaktformulars</h2>
       <p>
-        <span className="placeholder">[Nur ausfüllen, wenn ein Formular-Dienst genutzt wird.]</span>{' '}
-        Für die Übermittlung der Formularnachrichten setze ich den Dienst{' '}
-        <span className="placeholder">[Name des Dienstes, z. B. Formspree]</span> ein. Der Dienst
-        verarbeitet die im Formular eingegebenen Daten in meinem Auftrag. Grundlage ist ein
-        Vertrag über Auftragsverarbeitung. Wird der Dienst außerhalb der EU betrieben, erfolgt
-        die Übermittlung auf Grundlage der Standardvertragsklauseln der EU-Kommission.
-        Einzelheiten: <span className="placeholder">[Link zur Datenschutzerklärung des Dienstes]</span>.
-      </p>
-      <p>
-        Wird kein Formular-Dienst genutzt und erreicht mich Ihre Nachricht direkt per E-Mail,
-        gilt allein Abschnitt 3.
+        Das Kontaktformular übermittelt Ihre Angaben an meinen eigenen Server. Dieser leitet sie
+        als E-Mail an mein Postfach weiter, ein externer Formular-Dienst kommt nicht zum Einsatz.
+        Für den E-Mail-Versand nutze ich den Anbieter{' '}
+        <span className="placeholder">[Name des E-Mail-Anbieters]</span>. Der Server speichert die
+        Formulardaten nicht; zur Abwehr automatisierter Anfragen zählt er kurzzeitig die Anzahl
+        der Anfragen je IP-Adresse (Rechtsgrundlage: berechtigtes Interesse am störungsfreien
+        Betrieb nach Art. 6 Abs. 1 lit. f DSGVO).
       </p>
 
       <h2>5. Schriftarten</h2>
