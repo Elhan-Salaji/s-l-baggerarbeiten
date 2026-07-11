@@ -1,106 +1,136 @@
 # S.L. Baggerarbeiten — Webseite
 
-Einseitige Webseite (One-Pager) für S.L. Baggerarbeiten, einen Ein-Mann-Betrieb für Minibagger-Arbeiten im Ortenaukreis.
+Webseite für S.L. Baggerarbeiten, einen Ein-Mann-Betrieb für
+Minibagger-Arbeiten im Ortenaukreis. Ein React-Frontend liefert den
+One-Pager samt Impressum und Datenschutz, ein Spring-Boot-Backend
+nimmt Kontaktanfragen entgegen und leitet sie per E-Mail weiter. Beide
+laufen als Container hinter Caddy unter https://s-l-baggerarbeiten.de.
 
-## Überblick
+## Aufbau
 
-Die Marketing-Seite läuft als ein durchscrollbares Dokument mit Anker-Navigation: Start, Über mich, Leistungen, Referenzen, Kontakt. Dazu kommen zwei rechtlich nötige Mini-Seiten, `impressum.html` und `datenschutz.html`.
+| Bereich | Inhalt |
+|---------|--------|
+| `frontend/` | React mit Vite und TypeScript, Design und Inhalte des One-Pagers |
+| `backend/` | Spring Boot (Java 21, Maven), Kontakt-API `POST /api/kontakt` |
+| `docker/` | Compose-Dateien, Caddyfile, Umgebungsvorlage `.env.example` |
+| `docs/` | Architekturentscheidungen (`adr/`) und Server-Anleitung (`deployment.md`) |
+| `assets/`, `tools/` | Quellfotos und das Skript zur Bildaufbereitung |
 
-## Technik und warum
+Warum das so geschnitten ist, steht in den ADRs unter `docs/adr/`,
+angefangen bei `0001-trennung-in-frontend-und-backend.md`.
 
-Statisches HTML5, CSS und etwas Vanilla-JavaScript. Kein Framework, kein Build-Schritt, kein npm.
+## Voraussetzungen
 
-Eine Person pflegt die Seite. Statisch läuft sie überall gleich, lässt sich per FTP oder Drag-and-drop hochladen und hat keine Abhängigkeiten, die mit der Zeit veralten. Genau dafür ist dieser Aufbau gedacht.
+- Java 21 (Maven bringt der Wrapper `./mvnw` selbst mit)
+- Node 22 oder neuer
+- Docker mit Compose-Plugin
 
-JavaScript übernimmt nur das mobile Menü, die Galerie-Lightbox, den aktiven Navigationspunkt beim Scrollen, den Fokus nach einem Sprung zu einem Anker und den Honeypot im Formular. Ohne JavaScript bleibt die Seite lesbar und über Formular, Telefon und E-Mail erreichbar.
+## Lokale Entwicklung
 
-## Lokale Vorschau
-
-Im Projektordner einen kleinen Webserver starten:
+Mailpit fängt die Mails auf, Backend und Frontend laufen direkt auf
+dem Rechner:
 
 ```
-python3 -m http.server 8000
+cd docker   && docker compose -f compose.dev.yml up -d mailpit
+cd backend  && ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+cd frontend && npm install && npm run dev
 ```
 
-Danach `http://localhost:8000` im Browser öffnen. Der Server ist nur für die Vorschau nötig, damit Schriften und Pfade so laden wie später online.
+Danach: Seite auf http://localhost:5173, verschickte Mails auf
+http://localhost:8025. Der Vite-Proxy reicht `/api` an das Backend auf
+Port 8080 weiter.
 
-## Veröffentlichen
+Sind Ports auf dem Rechner belegt, lassen sich alle verschieben:
+`SERVER_PORT` für das Backend, `VITE_API_PROXY` für den Proxy,
+`MAILPIT_SMTP_PORT`/`MAILPIT_UI_PORT`/`DEV_HTTPS_PORT` für die
+Container (dann auch `SMTP_PORT` fürs Backend setzen).
 
-Alle Dateien auf den Webspace laden, per FTP oder per Drag-and-drop im Hosting-Panel. Online müssen:
+## Tests
 
 ```
-index.html  impressum.html  datenschutz.html
-favicon.ico  apple-touch-icon.png
-css/  js/
-assets/fonts/  assets/img/  assets/logo/
+cd backend  && ./mvnw verify
+cd frontend && npm run build && npm run lint
 ```
 
-Nicht online müssen `assets/img/original/` (die großen Quellfotos) und `tools/`. Beide brauchen nur die Bildbearbeitung, nicht die fertige Seite.
+Die Backend-Tests decken Validierung, Mailversand, Honeypot und
+Rate-Limiting ab. Sie laufen auch im Docker-Build des Backends, ein
+kaputter Stand baut kein Image.
+
+## Kompletter Stack lokal
+
+```
+cd docker && docker compose -f compose.dev.yml up -d --build
+```
+
+Bringt Caddy, Frontend, Backend und Mailpit zusammen hoch, wie in
+Produktion, nur mit lokalem Zertifikat: https://localhost:8443 (die
+Zertifikatswarnung ist hier normal).
+
+## Konfiguration
+
+Alle Zugangsdaten kommen aus Umgebungsvariablen. In Produktion liest
+Compose sie aus `docker/.env` (Vorlage: `docker/.env.example`, die
+echte Datei bleibt auf dem Server).
+
+| Variable | Zweck |
+|----------|-------|
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD` | SMTP-Zugang für den Mailversand |
+| `MAIL_FROM` | fester Absender, muss zum SMTP-Konto passen (SPF/DKIM) |
+| `MAIL_RECIPIENT` | Postfach des Betreibers, Empfänger der Anfragen |
+| `ACME_EMAIL` | Let's-Encrypt-Konto für Zertifikats-Hinweise |
 
 ## Inhalte ändern
 
 | Was | Wo |
 |-----|-----|
-| Texte der Abschnitte | `index.html`, jeweils im passenden `<section>`-Block |
-| Leistungen | `index.html`, Liste `services__grid` (ein `<li class="service">` pro Eintrag) |
-| Galerie: Bilder, Reihenfolge, Bildunterschriften | `index.html`, Liste `gallery__grid` (ein `<li class="gallery__cell">` pro Foto) |
-| Telefon und E-Mail | `index.html` (Kontakt und Footer) sowie `impressum.html` und `datenschutz.html` |
-| Farben, Abstände, Schriftgrößen | `css/styles.css`, Block `:root` (Custom-Properties an einer Stelle) |
-| Verhalten (Menü, Lightbox, Navigation) | `js/main.js` |
+| Texte der Abschnitte | `frontend/src/sections/`, je Abschnitt eine Datei |
+| Leistungen | Liste `SERVICES` in `frontend/src/sections/Services.tsx` |
+| Galerie: Bilder, Reihenfolge, Bildunterschriften | Liste `IMAGES` in `frontend/src/sections/Gallery.tsx` |
+| Telefon und E-Mail | `Contact.tsx`, `Footer.tsx` sowie die Seiten unter `frontend/src/pages/` |
+| Farben, Abstände, Schriftgrößen | `frontend/src/styles/tokens.css` |
+| Impressum und Datenschutz | `frontend/src/pages/ImpressumPage.tsx` und `DatenschutzPage.tsx` |
 
-Die Farben stammen aus dem Logo und liegen als Custom-Properties gebündelt in `:root`. Rot ist bewusst sparsam gesetzt, für Buttons, aktive Navigation und Akzente. Für langen Fließtext reicht der Kontrast von Rot auf Hell nicht, deshalb steht dort Anthrazit.
+Die Farben stammen aus dem Logo und liegen als Custom-Properties in
+`tokens.css`. Rot bleibt bewusst sparsam gesetzt, für Buttons, aktive
+Navigation und Akzente.
 
 ## Kontaktformular
 
-Das Formular kommt ohne eigenes Backend aus. Es gibt zwei Wege:
-
-1. **Formular-Dienst (empfohlen).** Bei [formspree.io](https://formspree.io) ein Formular anlegen und die Form-ID kopieren. In `index.html` im `<form>` das `action`-Attribut von `https://formspree.io/f/DEINE-FORM-ID` auf die echte Adresse setzen. Zugangsdaten oder Schlüssel gehören nicht in den Code.
-2. **Ohne Dienst (`mailto`-Fallback).** Im `<form>` `action="mailto:s.l.baggerarbeiten@web.de"` und `method="post" enctype="text/plain"` setzen. Beim Absenden öffnet sich das Mailprogramm des Besuchers. Das ist weniger komfortabel, kommt aber ohne Dritte aus.
-
-Unabhängig vom gewählten Weg stehen Telefon und E-Mail sichtbar und klickbar auf der Seite. Das versteckte Honeypot-Feld (`_gotcha`) fängt automatisierten Spam ab; Formspree wertet es zusätzlich serverseitig aus.
-
-## Schriften
-
-Inter (Fließtext) und Archivo (Überschriften) liegen lokal als `woff2` in `assets/fonts/`. Es gibt keine Verbindung zu einem Google-Fonts-CDN, das ist auch aus Datenschutzsicht so gewollt. Die Schriften stehen unter der SIL Open Font License, der Lizenztext liegt in `assets/fonts/OFL-Inter.txt` und `assets/fonts/OFL-Archivo.txt`.
+Das Formular sendet an `POST /api/kontakt`. Das Backend validiert die
+Felder, verwirft Anfragen mit gefülltem Honeypot-Feld still und
+erlaubt 5 Anfragen je Stunde und Absender-Adresse. Gültige Anfragen
+gehen als E-Mail an `MAIL_RECIPIENT`, die Adresse aus dem Formular
+steht im Reply-To. Die Swagger-UI der API läuft im Dev-Profil auf
+http://localhost:8080/swagger-ui/index.html.
 
 ## Bilder neu erzeugen
 
-Die web-optimierten Bilder liegen fertig in `assets/img/` und `assets/logo/`. Neu erzeugen muss man sie nur, wenn neue Fotos hinzukommen. Die Quellfotos liegen in `assets/img/original/`.
+Die web-optimierten Bilder liegen fertig in `frontend/public/`. Neu
+erzeugen muss man sie nur, wenn neue Fotos hinzukommen. Die Quellfotos
+liegen in `assets/img/original/`.
 
 ```
 python3 -m pip install Pillow
 python3 tools/optimize-images.py
 ```
 
-Das Skript skaliert die Bilder, schreibt WebP plus JPEG- bzw. PNG-Fallback, entfernt die EXIF-Daten und legt die Größen für Hero, Galerie, Lightbox, Logo und Favicon an. Für ein neues Galeriebild: Datei in `assets/img/original/` ablegen, in `tools/optimize-images.py` in der Liste `GALLERY` ergänzen, das Skript laufen lassen und in `index.html` einen Galerie-Eintrag hinzufügen.
+Für ein neues Galeriebild: Datei in `assets/img/original/` ablegen, in
+`tools/optimize-images.py` in der Liste `GALLERY` ergänzen, das Skript
+laufen lassen und den Eintrag in `frontend/src/sections/Gallery.tsx`
+hinzufügen.
 
 ## Recht
 
-`impressum.html` und `datenschutz.html` sind Vorlagen mit Platzhaltern in `[eckigen Klammern]`. Vor dem Live-Gang die echten Daten eintragen (Name, Anschrift, Verantwortlicher, ggf. USt-IdNr., Hosting-Anbieter) und beide Seiten rechtlich prüfen lassen. Ein Impressum (§ 5 DDG) und eine Datenschutzerklärung (DSGVO) sind in Deutschland Pflicht und müssen leicht auffindbar sein; beide sind im Footer verlinkt.
+Impressum und Datenschutzerklärung sind Vorlagen mit Platzhaltern in
+`[eckigen Klammern]`. Vor dem Live-Gang die echten Daten eintragen und
+beide Seiten rechtlich prüfen lassen. Beide sind im Footer verlinkt.
 
-## Vor dem Live-Gang
+## Deployment
 
-- Impressum und Datenschutz ausgefüllt und geprüft
-- Formular-Ziel gesetzt: Formspree-ID oder `mailto`
-- Telefon und E-Mail geprüft
-- `og:image` und Domain in `index.html` an die echte Adresse angepasst (optional, für die Vorschau beim Teilen)
+Server einrichten, DNS setzen, `docker compose up -d --build`: die
+komplette Anleitung steht in [docs/deployment.md](docs/deployment.md).
 
-## Projektstruktur
+## Versionen
 
-```
-index.html              One-Pager mit allen Inhaltsabschnitten
-impressum.html          Pflichtangaben (Vorlage mit Platzhaltern)
-datenschutz.html        Datenschutzerklärung (Vorlage mit Platzhaltern)
-favicon.ico             Browser-Icon
-apple-touch-icon.png    Icon für mobile Lesezeichen
-css/styles.css          gesamtes Layout und Design, Tokens in :root
-js/main.js              Menü, Lightbox, Navigation, Honeypot
-assets/
-  fonts/                lokal gehostete Schriften (woff2) plus Lizenzen
-  img/                  web-optimierte Bilder (WebP plus Fallback)
-  img/original/         Quellfotos, nur für die Bildbearbeitung
-  logo/                 Logo-Emblem hell und dunkel
-  logo/original/        Quell-Logos
-tools/optimize-images.py  erzeugt die web-optimierten Bilder
-CHANGELOG.md            Änderungen je Version
-```
+Änderungen stehen im [CHANGELOG.md](CHANGELOG.md), Releases tragen
+SemVer-Tags (`v2.0.0`).
