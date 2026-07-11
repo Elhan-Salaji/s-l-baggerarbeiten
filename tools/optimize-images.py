@@ -3,8 +3,9 @@
 
 Liest die Quellfotos aus assets/img/original und die Logos aus
 assets/logo/original und erzeugt daraus web-optimierte Varianten in
-assets/img und assets/logo: WebP als Hauptformat, JPEG bzw. PNG als
-Fallback, EXIF entfernt, feste Groessen fuer Hero, Galerie und Lightbox.
+frontend/public/img und frontend/public/logo: WebP als Hauptformat,
+JPEG bzw. PNG als Fallback, EXIF entfernt, feste Groessen fuer Hero,
+Galerie und Lightbox.
 
 Nur noetig, wenn neue Fotos hinzukommen oder Groessen sich aendern.
 Die fertige Webseite braucht dieses Skript nicht.
@@ -23,8 +24,9 @@ from PIL import Image, ImageChops, ImageOps
 ROOT = Path(__file__).resolve().parent.parent
 SRC_IMG = ROOT / "assets" / "img" / "original"
 SRC_LOGO = ROOT / "assets" / "logo" / "original"
-OUT_IMG = ROOT / "assets" / "img"
-OUT_LOGO = ROOT / "assets" / "logo"
+PUBLIC = ROOT / "frontend" / "public"
+OUT_IMG = PUBLIC / "img"
+OUT_LOGO = PUBLIC / "logo"
 
 # Galerie-Reihenfolge und Quelldateien. Slug steuert die Dateinamen,
 # die Reihenfolge im HTML wird dort separat festgelegt.
@@ -178,11 +180,11 @@ def process_favicons() -> None:
     square = Image.new("RGB", (side, side), bg)
     square.paste(emblem, ((side - emblem.width) // 2, (side - emblem.height) // 2))
     ico = square.resize((48, 48), Image.LANCZOS)
-    ico.save(ROOT / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])
+    ico.save(PUBLIC / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])
     apple = square.resize((180, 180), Image.LANCZOS)
-    apple.save(ROOT / "apple-touch-icon.png", optimize=True)
-    record(ROOT / "favicon.ico", ico.size)
-    record(ROOT / "apple-touch-icon.png", apple.size)
+    apple.save(PUBLIC / "apple-touch-icon.png", optimize=True)
+    record(PUBLIC / "favicon.ico", ico.size)
+    record(PUBLIC / "apple-touch-icon.png", apple.size)
 
 
 def main() -> None:
