@@ -1,9 +1,46 @@
 <!doctype html>
+<!-- Die Seite läuft als React-Anwendung, die Klasse "js" ist daher fest
+     gesetzt. Die CSS-Regeln für Menü und Navigation hängen an ihr. -->
 <html class="js" lang="de">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>S.L. Baggerarbeiten | Minibagger im Ortenaukreis</title>
+    <meta name="description" content="Minibagger-Arbeiten im Ortenaukreis: Fundamentaushub, Leitungsgräben, Nivellierung und Gartenarbeiten mit einem 1,2-Tonnen-Minibagger. Passt durch enge Zugänge ab 90 cm." />
+    <meta name="theme-color" content="#fdf8f5" />
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph: url und Bild beim Live-Gang auf die echte Domain setzen. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:title" content="S.L. Baggerarbeiten | Minibagger im Ortenaukreis" />
+    <meta property="og:description" content="Baggerarbeiten auch an schwer zugänglichen Stellen. 1,2-Tonnen-Minibagger, nur 90 cm Durchfahrtsbreite, abnehmbares Dach." />
+    <meta property="og:image" content="/img/hero-desktop-1800.jpg" />
+
+    <!-- Schriften vorab laden (lokal gehostet, siehe src/styles/tokens.css). -->
+    <link rel="preload" href="/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/archivo-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Hero-Bild vorab laden, passend zur Bildschirmbreite (LCP). -->
+    <link rel="preload" as="image" type="image/webp" media="(max-width: 767px)"
+          imagesrcset="/img/hero-mobile-640.webp 640w, /img/hero-mobile-900.webp 900w" imagesizes="100vw" />
+    <link rel="preload" as="image" type="image/webp" media="(min-width: 768px)"
+          imagesrcset="/img/hero-desktop-1200.webp 1200w, /img/hero-desktop-1800.webp 1800w" imagesizes="100vw" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "S.L. Baggerarbeiten",
+      "description": "Minibagger-Arbeiten im Ortenaukreis: Fundamentaushub, Leitungsgräben, Nivellierung und Gartenarbeiten mit einem 1,2-Tonnen-Minibagger.",
+      "image": "/img/hero-desktop-1800.jpg",
+      "telephone": "+4915752675620",
+      "email": "s.l.baggerarbeiten@web.de",
+      "areaServed": "Ortenaukreis"
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
