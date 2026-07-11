@@ -874,6 +874,37 @@ textarea.form__control {
   text-align: center;
 }
 
+/* Meldung zu einem einzelnen Feld (Antwort der Kontakt-API). */
+.form__error {
+  margin-top: var(--space-2xs);
+  font-size: var(--fs-small);
+  color: var(--color-red-dark);
+}
+
+.form__control[aria-invalid="true"] {
+  border-color: var(--color-red);
+}
+
+/* Rückmeldung nach dem Absenden. */
+.form__feedback {
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius);
+  font-size: var(--fs-small);
+}
+
+.form__feedback--success {
+  background-color: #edf4e8;
+  border-left: 4px solid #4c7a3d;
+  color: #2f4d26;
+}
+
+.form__feedback--error {
+  background-color: #fbeceb;
+  border-left: 4px solid var(--color-red);
+  color: #5a2b2b;
+}
+
 @media (min-width: 820px) {
   .contact__grid {
     grid-template-columns: 1fr 1.1fr;
