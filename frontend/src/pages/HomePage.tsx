@@ -4,6 +4,7 @@ import IconSprite from '../components/IconSprite'
 import { useAnchorFocus } from '../hooks/useAnchorFocus'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import About from '../sections/About'
+import Gallery from '../sections/Gallery'
 import Hero from '../sections/Hero'
 import Services from '../sections/Services'
 
@@ -19,6 +20,7 @@ function HomePage() {
         <Hero />
         <About />
         <Services />
+        <Gallery />
       </main>
       <Footer />
     </>
