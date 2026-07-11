@@ -1,102 +1,13 @@
 /* =================================================================
-   S.L. Baggerarbeiten
-   Aufbau: 1. Schriften  2. Design-Tokens  3. Basis  4. Layout
-           5. Bausteine (Buttons)  6. Header & Navigation  7. Hero
-           8. Über mich  9. Leistungen  10. Galerie  11. Lightbox
-           12. Kontakt  13. Footer  14. Bewegung reduzieren
-   Farben, Abstände und Schriftgrößen stehen als Custom-Properties
-   in :root und werden nur dort geändert.
+   S.L. Baggerarbeiten — Layout und Bausteine
+   Aufbau: 1. Basis  2. Layout  3. Bausteine (Buttons)
+           4. Header & Navigation  5. Hero  6. Über mich
+           7. Leistungen  8. Galerie  9. Lightbox  10. Kontakt
+           11. Footer  12. Rechtliche Seiten  13. Bewegung reduzieren
+   Schriften und Design-Tokens liegen in tokens.css.
    ================================================================= */
 
-/* 1. Schriften (lokal gehostet, keine externen CDNs) -------------- */
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("../assets/fonts/inter-latin-400-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("../assets/fonts/inter-latin-500-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("../assets/fonts/inter-latin-600-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Archivo";
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("../assets/fonts/archivo-latin-600-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Archivo";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("../assets/fonts/archivo-latin-700-normal.woff2") format("woff2");
-}
-
-/* 2. Design-Tokens ------------------------------------------------ */
-:root {
-  /* Farben aus dem Logo */
-  --color-red: #c2191c;
-  --color-red-dark: #9e1417;
-  --color-ink: #141414;
-  --color-bg: #f4f2ed;            /* heller Hintergrund */
-  --color-surface: #fbfaf6;       /* Karten, leicht aufgehellt */
-  --color-header: #fdf8f5;        /* exakt der Logo-Hintergrund hell */
-  --color-footer: #0b0c09;        /* exakt der Logo-Hintergrund dunkel */
-  --color-muted: #5a5a5a;
-  --color-line: #e3e0d8;
-  --color-on-dark: #f3f1ec;
-  --color-on-dark-muted: #b8b3a8;
-  --color-on-dark-line: rgba(255, 255, 255, 0.14);
-
-  /* Schrift */
-  --font-head: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-
-  --fs-eyebrow: 0.8125rem;
-  --fs-small: 0.875rem;
-  --fs-body: 1.0625rem;
-  --fs-lead: clamp(1.1rem, 0.9rem + 0.8vw, 1.3rem);
-  --fs-h3: 1.1875rem;
-  --fs-h2: clamp(1.7rem, 1.2rem + 2.2vw, 2.5rem);
-  --fs-hero: clamp(2.1rem, 1.3rem + 3.6vw, 3.6rem);
-
-  /* Abstände */
-  --space-2xs: 0.25rem;
-  --space-xs: 0.5rem;
-  --space-sm: 0.75rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 4.5rem;
-  --section-y: clamp(3.25rem, 2rem + 6vw, 6rem);
-
-  /* Form */
-  --container: 1140px;
-  --container-narrow: 760px;
-  --container-pad: clamp(1.1rem, 0.6rem + 2.4vw, 2rem);
-  --radius: 6px;
-  --radius-lg: 12px;
-  --header-h: 4.5rem;
-  --shadow-sm: 0 1px 2px rgba(20, 20, 20, 0.06), 0 2px 8px rgba(20, 20, 20, 0.05);
-  --shadow-md: 0 8px 30px rgba(20, 20, 20, 0.12);
-  --transition: 180ms ease;
-}
-
-/* 3. Basis -------------------------------------------------------- */
+/* 1. Basis -------------------------------------------------------- */
 *,
 *::before,
 *::after {
@@ -173,7 +84,7 @@ button {
   overflow: hidden;
 }
 
-/* 4. Layout ------------------------------------------------------- */
+/* 2. Layout ------------------------------------------------------- */
 .container {
   width: 100%;
   max-width: var(--container);
@@ -247,7 +158,7 @@ button {
   color: #fff;
 }
 
-/* 5. Buttons ------------------------------------------------------ */
+/* 3. Buttons ------------------------------------------------------ */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -298,7 +209,7 @@ button {
   width: 100%;
 }
 
-/* 6. Header & Navigation ------------------------------------------ */
+/* 4. Header & Navigation ------------------------------------------ */
 .site-header {
   position: sticky;
   top: 0;
@@ -460,7 +371,7 @@ button {
   }
 }
 
-/* 7. Hero --------------------------------------------------------- */
+/* 5. Hero --------------------------------------------------------- */
 .hero {
   position: relative;
   display: flex;
@@ -568,7 +479,7 @@ button {
   color: var(--color-on-dark-muted);
 }
 
-/* 8. Über mich ---------------------------------------------------- */
+/* 6. Über mich ---------------------------------------------------- */
 .about__grid {
   display: grid;
   gap: var(--space-2xl);
@@ -634,7 +545,7 @@ button {
   }
 }
 
-/* 9. Leistungen --------------------------------------------------- */
+/* 7. Leistungen --------------------------------------------------- */
 .services__grid {
   display: grid;
   gap: var(--space-md);
@@ -683,7 +594,7 @@ button {
   color: var(--color-muted);
 }
 
-/* 10. Galerie (Masonry über Spalten) ------------------------------ */
+/* 8. Galerie (Masonry über Spalten) ------------------------------ */
 .gallery__grid {
   column-count: 1;
   column-gap: var(--space-md);
@@ -746,7 +657,7 @@ button {
   transform: translateY(0);
 }
 
-/* 11. Lightbox (per JavaScript erzeugt) --------------------------- */
+/* 9. Lightbox (per JavaScript erzeugt) --------------------------- */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -840,7 +751,7 @@ button {
   font-variant-numeric: tabular-nums;
 }
 
-/* 12. Kontakt ----------------------------------------------------- */
+/* 10. Kontakt ----------------------------------------------------- */
 .contact__grid {
   display: grid;
   gap: var(--space-2xl);
@@ -970,7 +881,7 @@ textarea.form__control {
   }
 }
 
-/* 13. Footer ------------------------------------------------------ */
+/* 11. Footer ------------------------------------------------------ */
 .site-footer {
   background-color: var(--color-footer);
   color: var(--color-on-dark);
@@ -1065,7 +976,7 @@ textarea.form__control {
   }
 }
 
-/* 14. Rechtliche Seiten (Impressum, Datenschutz) ------------------ */
+/* 12. Rechtliche Seiten (Impressum, Datenschutz) ------------------ */
 .page-back {
   font-family: var(--font-head);
   font-weight: 600;
@@ -1157,7 +1068,7 @@ textarea.form__control {
   color: var(--color-red-dark);
 }
 
-/* 15. Bewegung reduzieren ----------------------------------------- */
+/* 13. Bewegung reduzieren ----------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
