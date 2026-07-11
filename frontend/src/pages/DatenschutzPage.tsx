@@ -24,7 +24,7 @@ function DatenschutzPage() {
         <span className="placeholder">[Straße und Hausnummer]</span><br />
         <span className="placeholder">[PLZ]</span> <span className="placeholder">[Ort]</span><br />
         Telefon: <a href="tel:+4915752675620">0157 52675620</a><br />
-        E-Mail: <a href="mailto:s.l.baggerarbeiten@web.de">s.l.baggerarbeiten@web.de</a>
+        E-Mail: <a href="mailto:info@s-l-baggerarbeiten.de">info@s-l-baggerarbeiten.de</a>
       </address>
 
       <h2>2. Hosting und Server-Logfiles</h2>

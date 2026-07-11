@@ -28,7 +28,7 @@ function Footer() {
           <h2 className="site-footer__heading">Kontakt</h2>
           <ul className="site-footer__list">
             <li><a href="tel:+4915752675620">0157 52675620</a></li>
-            <li><a href="mailto:s.l.baggerarbeiten@web.de">s.l.baggerarbeiten@web.de</a></li>
+            <li><a href="mailto:info@s-l-baggerarbeiten.de">info@s-l-baggerarbeiten.de</a></li>
             <li>Ortenaukreis</li>
           </ul>
         </div>

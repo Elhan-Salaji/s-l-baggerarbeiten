@@ -25,7 +25,7 @@ function ImpressumPage() {
       <h2>Kontakt</h2>
       <p>
         Telefon: <a href="tel:+4915752675620">0157 52675620</a><br />
-        E-Mail: <a href="mailto:s.l.baggerarbeiten@web.de">s.l.baggerarbeiten@web.de</a>
+        E-Mail: <a href="mailto:info@s-l-baggerarbeiten.de">info@s-l-baggerarbeiten.de</a>
       </p>
 
       <h2>Umsatzsteuer-Identifikationsnummer</h2>

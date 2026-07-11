@@ -5,6 +5,11 @@ Alle nennenswerten Änderungen an diesem Projekt stehen in dieser Datei.
 Das Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/),
 die Versionierung an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [2.0.1] - 2026-07-11
+
+### Changed
+- Kontaktadresse überall auf info@s-l-baggerarbeiten.de umgestellt (Kontakt-Sektion, Footer, Impressum, Datenschutz, LocalBusiness-Daten, Umgebungsvorlage). Das web.de-Postfach entfällt.
+
 ## [2.0.0] - 2026-07-11
 
 ### Added
