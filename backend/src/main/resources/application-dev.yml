@@ -1,0 +1,6 @@
+# Lokale Entwicklung: Mailpit nimmt die Mails auf http://localhost:8025
+# entgegen, die Vorgaben aus application.yml (localhost:1025, ohne
+# Anmeldung) passen bereits.
+logging:
+  level:
+    de.slbaggerarbeiten: DEBUG

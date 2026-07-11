@@ -1,0 +1,18 @@
+# Produktion: authentifiziertes SMTP mit STARTTLS. Das Backend läuft
+# hinter Caddy im internen Container-Netz, deshalb ist das Auswerten
+# der Forwarded-Header für die Client-Adresse (Rate-Limiting) sicher.
+spring:
+  mail:
+    properties:
+      "[mail.smtp.auth]": true
+      "[mail.smtp.starttls.enable]": true
+
+server:
+  forward-headers-strategy: framework
+
+# Die API-Dokumentation ist ein Entwicklungswerkzeug.
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
