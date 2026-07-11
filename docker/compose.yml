@@ -31,7 +31,8 @@ services:
     networks:
       - web
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/"]
+      # 127.0.0.1 statt localhost: busybox-wget versucht sonst IPv6 zuerst.
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -50,7 +51,7 @@ services:
     networks:
       - web
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/actuator/health"]
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/actuator/health"]
       interval: 30s
       timeout: 5s
       retries: 3
