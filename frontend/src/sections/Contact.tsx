@@ -64,7 +64,7 @@ function Contact() {
             </li>
             <li className="contact-list__item">
               <span className="contact-list__label">E-Mail</span>
-              <a className="contact-list__value" href="mailto:s.l.baggerarbeiten@web.de">s.l.baggerarbeiten@web.de</a>
+              <a className="contact-list__value" href="mailto:info@s-l-baggerarbeiten.de">info@s-l-baggerarbeiten.de</a>
             </li>
             <li className="contact-list__item">
               <span className="contact-list__label">Einsatzgebiet</span>
