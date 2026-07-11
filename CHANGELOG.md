@@ -5,6 +5,11 @@ Alle nennenswerten Änderungen an diesem Projekt stehen in dieser Datei.
 Das Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/),
 die Versionierung an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [2.0.2] - 2026-07-11
+
+### Fixed
+- Container-Healthchecks scheiterten auf dem Server: busybox-wget prüfte localhost über IPv6, nginx lauschte nur auf IPv4 (jetzt beides), die Checks prüfen 127.0.0.1. Der Mail-Health-Indicator ist abgeschaltet, damit ein gestörter SMTP-Anbieter den Backend-Container nicht unhealthy macht.
+
 ## [2.0.1] - 2026-07-11
 
 ### Changed
