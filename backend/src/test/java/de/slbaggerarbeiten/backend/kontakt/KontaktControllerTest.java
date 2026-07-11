@@ -1,13 +1,16 @@
 package de.slbaggerarbeiten.backend.kontakt;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -25,6 +28,14 @@ class KontaktControllerTest {
 
     @MockitoBean
     private NotificationService notificationService;
+
+    @MockitoBean
+    private RateLimiter rateLimiter;
+
+    @BeforeEach
+    void erlaubeAnfragen() {
+        when(rateLimiter.allow(anyString())).thenReturn(true);
+    }
 
     private ResultActions sende(String json) throws Exception {
         return mockMvc.perform(post("/api/kontakt")
@@ -106,6 +117,27 @@ class KontaktControllerTest {
                 """)
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.felder.datenschutz").exists());
+
+        verifyNoInteractions(notificationService);
+    }
+
+    @Test
+    void gefuelltesHoneypotFeldVerwirftDieAnfrageStill() throws Exception {
+        sende("""
+                {"name": "Erika Musterfrau", "email": "erika@example.de",
+                 "nachricht": "Bitte um ein Angebot für den Gartenaushub.",
+                 "datenschutz": true, "website": "https://spam.example"}
+                """)
+                .andExpect(status().isOk());
+
+        verifyNoInteractions(notificationService);
+    }
+
+    @Test
+    void ueberschrittenesLimitFuehrtZuZuVielenAnfragen() throws Exception {
+        when(rateLimiter.allow(anyString())).thenReturn(false);
+
+        sende(gueltigeAnfrage()).andExpect(status().isTooManyRequests());
 
         verifyNoInteractions(notificationService);
     }
