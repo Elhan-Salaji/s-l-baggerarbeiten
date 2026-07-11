@@ -19,8 +19,15 @@ app:
     from: ${MAIL_FROM:noreply@localhost}
 
 # Nur der Health-Endpoint ist offen, er dient dem Container-Healthcheck.
+# Der Mail-Indicator bleibt aus: Health bedeutet "Anwendung läuft",
+# nicht "SMTP-Anbieter erreichbar". Versandfehler meldet der Endpoint
+# je Anfrage ehrlich mit 503, ein SMTP-Ausfall darf den Container
+# nicht unhealthy machen und damit Neustarts blockieren.
 management:
   endpoints:
     web:
       exposure:
         include: health
+  health:
+    mail:
+      enabled: false
