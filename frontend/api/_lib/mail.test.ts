@@ -67,6 +67,17 @@ describe('sendeKontaktmail', () => {
     ])
   })
 
+  it('nimmt ohne gesetzte Variablen die Adressen aus dem Code', async () => {
+    vi.stubEnv('MAIL_RECIPIENT', '')
+    vi.stubEnv('MAIL_FROM', '')
+
+    await sendeKontaktmail(anfrage)
+
+    const mail = sendMail.mock.calls[0]?.[0]
+    expect(mail.from).toBe('info@s-l-baggerarbeiten.de')
+    expect(mail.to).toEqual(['info@s-l-baggerarbeiten.de', 's.l.baggerarbeiten@web.de'])
+  })
+
   it('rüstet auf Port 587 per STARTTLS nach', async () => {
     await sendeKontaktmail(anfrage)
 
@@ -95,8 +106,9 @@ describe('sendeKontaktmail', () => {
   })
 
   it('lädt nodemailer tatsächlich als Standard-Import', async () => {
-    const echt = await vi.importActual<typeof import('nodemailer')>('nodemailer')
+    const modul = await vi.importActual<Record<string, unknown>>('nodemailer')
+    const standard = (modul.default ?? modul) as { createTransport?: unknown }
 
-    expect(typeof echt.default.createTransport).toBe('function')
+    expect(typeof standard.createTransport).toBe('function')
   })
 })

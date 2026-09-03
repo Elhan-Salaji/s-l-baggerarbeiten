@@ -11,6 +11,9 @@ die Versionierung an [Semantic Versioning](https://semver.org/lang/de/).
 - Zweite Kontaktadresse `s.l.baggerarbeiten@web.de`: Sie steht in der Kontakt-Sektion, im Footer, im Impressum, in der Datenschutzerklärung und in den LocalBusiness-Daten neben `info@s-l-baggerarbeiten.de`.
 - `MAIL_RECIPIENT` nimmt mehrere durch Komma getrennte Adressen an. Jede Anfrage aus dem Kontaktformular geht damit an beide Postfächer.
 
+### Changed
+- Absender und Empfänger der Kontaktmails stehen als Vorgabe im Code. Für den Betrieb reichen damit die vier SMTP-Variablen; `MAIL_FROM` und `MAIL_RECIPIENT` überschreiben die Vorgabe nur noch bei Bedarf.
+
 ## [3.0.0] - 2026-09-04
 
 ### Added

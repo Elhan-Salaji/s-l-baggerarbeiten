@@ -90,9 +90,13 @@ gehören sie nicht.
 
 | Variable | Zweck |
 |----------|-------|
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD` | SMTP-Zugang für den Mailversand |
-| `MAIL_FROM` | fester Absender, muss zum SMTP-Konto passen (SPF/DKIM) |
-| `MAIL_RECIPIENT` | Empfänger der Anfragen, mehrere Adressen durch Komma getrennt |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD` | SMTP-Zugang für den Mailversand, alle vier nötig |
+| `MAIL_FROM` | optional, überschreibt den Absender aus dem Code. Muss zum SMTP-Konto passen (SPF/DKIM) |
+| `MAIL_RECIPIENT` | optional, überschreibt die Empfänger aus dem Code. Mehrere Adressen durch Komma getrennt |
+
+Absender und Empfänger stehen als Vorgabe in `frontend/api/_lib/mail.ts`,
+weil sie ohnehin öffentlich auf der Seite stehen und sich selten ändern.
+Im Normalfall reichen also die vier SMTP-Werte.
 
 `ACME_EMAIL` brauchte nur Caddy auf dem alten Server. Auf Vercel
 kommen die Zertifikate vom Anbieter.
