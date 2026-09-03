@@ -34,11 +34,15 @@ anlegen. Die Namen sind dieselben wie im alten Serverbetrieb:
 | `SMTP_PORT` | `587` für STARTTLS, `465` für direktes TLS |
 | `SMTP_USERNAME` | Postfach oder Benutzername beim Anbieter |
 | `SMTP_PASSWORD` | Passwort des Postfachs |
-| `MAIL_FROM` | fester Absender, muss zum SMTP-Konto passen (SPF/DKIM) |
-| `MAIL_RECIPIENT` | Postfach, das die Anfragen bekommt |
 
-Ohne diese Werte antwortet `POST /api/kontakt` mit 503, und im
-Funktions-Log steht, welche Variable fehlt.
+Fehlt einer dieser vier Werte, antwortet `POST /api/kontakt` mit 503, und
+im Funktions-Log steht, welche Variable fehlt.
+
+`MAIL_FROM` und `MAIL_RECIPIENT` sind optional. Ohne sie nimmt die
+Funktion die Adressen aus `frontend/api/_lib/mail.ts`: Absender
+`info@s-l-baggerarbeiten.de`, Empfänger dieselbe Adresse und
+`s.l.baggerarbeiten@web.de`. Setz sie nur, wenn der Versand
+vorübergehend woanders hin soll.
 
 ## 3. Prüfen
 
