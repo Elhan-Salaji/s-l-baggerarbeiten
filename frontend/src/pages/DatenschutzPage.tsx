@@ -21,9 +21,13 @@ function DatenschutzPage() {
 
       <h2>2. Hosting und Server-Logfiles</h2>
       <p>
-        Diese Webseite wird bei Hetzner Online GmbH gehostet. Der Anbieter verarbeitet in
-        meinem Auftrag die Daten, die beim Besuch der Webseite anfallen. Grundlage dafür ist
-        ein Vertrag über Auftragsverarbeitung nach Art. 28 DSGVO.
+        Diese Webseite wird bei Vercel Inc. mit Sitz in den USA gehostet, Anschrift:{' '}
+        <span className="placeholder">[Anschrift laut Auftragsverarbeitungsvertrag]</span>. Der
+        Anbieter verarbeitet in meinem Auftrag die Daten, die beim Besuch der Webseite
+        anfallen. Grundlage dafür ist ein Vertrag über Auftragsverarbeitung nach
+        Art. 28 DSGVO. Die Verarbeitung kann auch außerhalb der Europäischen Union
+        stattfinden. Der Anbieter sichert diese Übermittlung ab über:{' '}
+        <span className="placeholder">[Übermittlungsgrundlage laut Anbieter eintragen]</span>.
       </p>
       <p>Beim Aufruf der Seiten speichert der Server automatisch sogenannte Server-Logfiles. Dazu gehören:</p>
       <ul>
@@ -54,17 +58,17 @@ function DatenschutzPage() {
 
       <h2>4. Versand des Kontaktformulars</h2>
       <p>
-        Das Kontaktformular übermittelt Ihre Angaben an meinen eigenen Server. Dieser leitet sie
-        als E-Mail an mein Postfach weiter, ein externer Formular-Dienst kommt nicht zum Einsatz.
-        Für den E-Mail-Versand nutze ich den Anbieter IONOS. Der Server speichert die
-        Formulardaten nicht; zur Abwehr automatisierter Anfragen zählt er kurzzeitig die Anzahl
-        der Anfragen je IP-Adresse (Rechtsgrundlage: berechtigtes Interesse am störungsfreien
+        Das Kontaktformular übermittelt Ihre Angaben an eine Funktion beim selben
+        Hosting-Anbieter. Diese leitet sie als E-Mail an mein Postfach weiter, ein externer
+        Formular-Dienst kommt nicht zum Einsatz. Für den E-Mail-Versand nutze ich den Anbieter
+        IONOS. Die Funktion speichert die Formulardaten nicht; zur Abwehr automatisierter
+        Anfragen zählt sie kurzzeitig die Anzahl der Anfragen je IP-Adresse (Rechtsgrundlage: berechtigtes Interesse am störungsfreien
         Betrieb nach Art. 6 Abs. 1 lit. f DSGVO).
       </p>
 
       <h2>5. Schriftarten</h2>
       <p>
-        Diese Webseite lädt ihre Schriftarten von meinem eigenen Server. Es besteht keine
+        Diese Webseite lädt ihre Schriftarten von derselben Adresse wie die Seite. Es besteht keine
         Verbindung zu Google Fonts oder einem anderen externen Anbieter. Beim Laden der
         Schriften werden keine Daten an Dritte übertragen.
       </p>
@@ -96,7 +100,7 @@ function DatenschutzPage() {
       </p>
 
       <p className="legal-meta">
-        Stand dieser Datenschutzerklärung: Juli 2026.
+        Stand dieser Datenschutzerklärung: September 2026.
       </p>
     </LegalLayout>
   )
