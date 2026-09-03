@@ -92,7 +92,7 @@ gehören sie nicht.
 |----------|-------|
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD` | SMTP-Zugang für den Mailversand |
 | `MAIL_FROM` | fester Absender, muss zum SMTP-Konto passen (SPF/DKIM) |
-| `MAIL_RECIPIENT` | Postfach des Betreibers, Empfänger der Anfragen |
+| `MAIL_RECIPIENT` | Empfänger der Anfragen, mehrere Adressen durch Komma getrennt |
 
 `ACME_EMAIL` brauchte nur Caddy auf dem alten Server. Auf Vercel
 kommen die Zertifikate vom Anbieter.
@@ -117,8 +117,9 @@ Navigation und Akzente.
 Das Formular sendet an `POST /api/kontakt`, umgesetzt in
 `frontend/api/kontakt.ts`. Die Funktion validiert die Felder, verwirft
 Anfragen mit gefülltem Honeypot-Feld still und erlaubt 5 Anfragen je
-Stunde und Absender-Adresse. Gültige Anfragen gehen als E-Mail an
-`MAIL_RECIPIENT`, die Adresse aus dem Formular steht im Reply-To.
+Stunde und Absender-Adresse. Gültige Anfragen gehen als E-Mail an alle
+Adressen in `MAIL_RECIPIENT`, die Adresse aus dem Formular steht im
+Reply-To.
 Fehler kommen als ProblemDetail nach RFC 9457 zurück, mit einer
 deutschen Meldung je Feld.
 

@@ -35,7 +35,7 @@ anlegen. Die Namen sind dieselben wie im alten Serverbetrieb:
 | `SMTP_USERNAME` | Postfach oder Benutzername beim Anbieter |
 | `SMTP_PASSWORD` | Passwort des Postfachs |
 | `MAIL_FROM` | fester Absender, muss zum SMTP-Konto passen (SPF/DKIM) |
-| `MAIL_RECIPIENT` | Postfach, das die Anfragen bekommt |
+| `MAIL_RECIPIENT` | Empfänger der Anfragen. Mehrere Adressen durch Komma trennen, etwa `info@s-l-baggerarbeiten.de, s.l.baggerarbeiten@web.de` |
 
 Ohne diese Werte antwortet `POST /api/kontakt` mit 503, und im
 Funktions-Log steht, welche Variable fehlt.

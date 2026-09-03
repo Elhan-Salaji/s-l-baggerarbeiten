@@ -15,6 +15,22 @@ export class MailKonfigurationFehlt extends Error {
   }
 }
 
+/**
+ * Zerlegt die Empfängerliste. Mehrere Adressen stehen in MAIL_RECIPIENT
+ * durch Komma getrennt, damit jede Anfrage in beiden Postfächern landet.
+ */
+function empfaenger(): string[] {
+  const adressen = pflichtwert('MAIL_RECIPIENT')
+    .split(',')
+    .map((adresse) => adresse.trim())
+    .filter((adresse) => adresse !== '')
+
+  if (adressen.length === 0) {
+    throw new MailKonfigurationFehlt('MAIL_RECIPIENT')
+  }
+  return adressen
+}
+
 function pflichtwert(name: string): string {
   const wert = process.env[name]
   if (wert === undefined || wert.trim() === '') {
@@ -45,7 +61,7 @@ export async function sendeKontaktmail(anfrage: KontaktAnfrage): Promise<void> {
   // Die Adresse aus dem Formular steht bewusst nur im Reply-To. Als
   // Absender würde sie an SPF und DKIM des Mailkontos scheitern.
   await transport.sendMail({
-    to: pflichtwert('MAIL_RECIPIENT'),
+    to: empfaenger(),
     from: pflichtwert('MAIL_FROM'),
     replyTo: anfrage.email,
     subject: `Neue Kontaktanfrage von ${anfrage.name}`,

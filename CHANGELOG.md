@@ -5,6 +5,12 @@ Alle nennenswerten Änderungen an diesem Projekt stehen in dieser Datei.
 Das Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/),
 die Versionierung an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [3.1.0] - 2026-09-04
+
+### Added
+- Zweite Kontaktadresse `s.l.baggerarbeiten@web.de`: Sie steht in der Kontakt-Sektion, im Footer, im Impressum, in der Datenschutzerklärung und in den LocalBusiness-Daten neben `info@s-l-baggerarbeiten.de`.
+- `MAIL_RECIPIENT` nimmt mehrere durch Komma getrennte Adressen an. Jede Anfrage aus dem Kontaktformular geht damit an beide Postfächer.
+
 ## [3.0.0] - 2026-09-04
 
 ### Added

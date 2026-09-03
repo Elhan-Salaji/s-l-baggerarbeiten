@@ -16,7 +16,8 @@ function DatenschutzPage() {
         Pfarrer-Schwab-Weg 4<br />
         77948 Friesenheim<br />
         Telefon: <a href="tel:+4915752675620">0157 52675620</a><br />
-        E-Mail: <a href="mailto:info@s-l-baggerarbeiten.de">info@s-l-baggerarbeiten.de</a>
+        E-Mail: <a href="mailto:info@s-l-baggerarbeiten.de">info@s-l-baggerarbeiten.de</a><br />
+        E-Mail: <a href="mailto:s.l.baggerarbeiten@web.de">s.l.baggerarbeiten@web.de</a>
       </address>
 
       <h2>2. Hosting und Server-Logfiles</h2>
