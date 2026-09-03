@@ -1,0 +1,3 @@
+# Tests gehören nicht in das Deployment. Ohne diesen Ausschluss
+# würde Vercel jede Datei unter api/ als Endpunkt veröffentlichen.
+**/*.test.ts
