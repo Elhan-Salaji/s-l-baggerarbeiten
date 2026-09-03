@@ -6,33 +6,24 @@ function DatenschutzPage() {
 
   return (
     <LegalLayout>
-      <p className="notice">
-        <strong>Hinweis:</strong> Diese Datenschutzerklärung ist eine Vorlage. Sie deckt die
-        Standardfälle dieser Webseite ab. Ergänzen Sie die{' '}
-        <span className="placeholder">[Platzhalter]</span> und lassen Sie den Text vor der
-        Veröffentlichung rechtlich prüfen, besonders wenn Sie einen Formular-Dienst oder weitere
-        Tools einsetzen.
-      </p>
-
       <h1>Datenschutzerklärung</h1>
 
       <h2>1. Verantwortlicher</h2>
       <p>Verantwortlich für die Datenverarbeitung auf dieser Webseite ist:</p>
       <address>
-        <span className="placeholder">[Vorname Nachname]</span><br />
+        Sven Leitermann<br />
         S.L. Baggerarbeiten<br />
-        <span className="placeholder">[Straße und Hausnummer]</span><br />
-        <span className="placeholder">[PLZ]</span> <span className="placeholder">[Ort]</span><br />
+        Pfarrer-Schwab-Weg 4<br />
+        77948 Friesenheim<br />
         Telefon: <a href="tel:+4915752675620">0157 52675620</a><br />
         E-Mail: <a href="mailto:info@s-l-baggerarbeiten.de">info@s-l-baggerarbeiten.de</a>
       </address>
 
       <h2>2. Hosting und Server-Logfiles</h2>
       <p>
-        Diese Webseite wird bei <span className="placeholder">[Name des Hosting-Anbieters]</span>{' '}
-        gehostet. Der Anbieter verarbeitet in meinem Auftrag die Daten, die beim Besuch der
-        Webseite anfallen. Grundlage dafür ist ein Vertrag über Auftragsverarbeitung nach
-        Art. 28 DSGVO.
+        Diese Webseite wird bei Hetzner Online GmbH gehostet. Der Anbieter verarbeitet in
+        meinem Auftrag die Daten, die beim Besuch der Webseite anfallen. Grundlage dafür ist
+        ein Vertrag über Auftragsverarbeitung nach Art. 28 DSGVO.
       </p>
       <p>Beim Aufruf der Seiten speichert der Server automatisch sogenannte Server-Logfiles. Dazu gehören:</p>
       <ul>
@@ -65,8 +56,7 @@ function DatenschutzPage() {
       <p>
         Das Kontaktformular übermittelt Ihre Angaben an meinen eigenen Server. Dieser leitet sie
         als E-Mail an mein Postfach weiter, ein externer Formular-Dienst kommt nicht zum Einsatz.
-        Für den E-Mail-Versand nutze ich den Anbieter{' '}
-        <span className="placeholder">[Name des E-Mail-Anbieters]</span>. Der Server speichert die
+        Für den E-Mail-Versand nutze ich den Anbieter IONOS. Der Server speichert die
         Formulardaten nicht; zur Abwehr automatisierter Anfragen zählt er kurzzeitig die Anzahl
         der Anfragen je IP-Adresse (Rechtsgrundlage: berechtigtes Interesse am störungsfreien
         Betrieb nach Art. 6 Abs. 1 lit. f DSGVO).
@@ -106,7 +96,7 @@ function DatenschutzPage() {
       </p>
 
       <p className="legal-meta">
-        Stand dieser Datenschutzerklärung: <span className="placeholder">[Monat Jahr eintragen]</span>.
+        Stand dieser Datenschutzerklärung: Juli 2026.
       </p>
     </LegalLayout>
   )
