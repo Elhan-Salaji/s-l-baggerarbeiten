@@ -1,123 +1,94 @@
-# Server-Einrichtung für s-l-baggerarbeiten.de
+# Deployment auf Vercel
 
-Die Seite läuft auf einem eigenen Linux-Server mit Docker. Caddy holt
-die TLS-Zertifikate automatisch bei Let's Encrypt, gebaut wird direkt
-auf dem Server. Die Schritte gelten für Ubuntu LTS, andere
-Distributionen weichen bei Paketnamen ab.
+Die Seite läuft auf Vercel. Vercel baut bei jedem Push auf `main` den
+Vite-Build, veröffentlicht ihn und stellt die Kontakt-API als
+Serverless-Funktion daneben. Branches bekommen automatisch eine
+Preview-URL, unter der sich Änderungen vor dem Merge ansehen lassen.
 
-## Voraussetzungen
+Warum dieser Weg, steht in
+[ADR 0006](adr/0006-betrieb-auf-vercel-statt-eigenem-server.md).
 
-- Server mit öffentlicher IPv4-Adresse, Ports 80 und 443 frei
-- SSH-Zugang mit sudo-Benutzer
-- Zugriff auf die DNS-Verwaltung der Domain
-- SMTP-Zugangsdaten für den Mailversand des Kontaktformulars
+## 1. Projekt anlegen
 
-## 1. DNS
+In Vercel *Add New Project*, das GitHub-Repository auswählen und diese
+Einstellungen setzen:
 
-Bei der DNS-Verwaltung zwei Einträge auf die Server-IP anlegen, beide
-braucht Caddy für die Zertifikate:
+| Feld | Wert |
+|------|------|
+| Root Directory | `frontend` |
+| Framework Preset | Vite |
+| Build Command | `npm run build` |
+| Output Directory | `dist` |
 
-| Typ | Name | Wert |
-|-----|------|------|
-| A | s-l-baggerarbeiten.de | Server-IPv4 |
-| A | www.s-l-baggerarbeiten.de | Server-IPv4 |
+Build- und Output-Einstellungen stehen auch in `frontend/vercel.json`,
+Vercel übernimmt sie beim Import von dort.
 
-Hat der Server IPv6, zusätzlich beide AAAA-Einträge setzen. Vor dem
-ersten Start prüfen, dass die Einträge greifen:
+## 2. Umgebungsvariablen
 
-```
-dig +short s-l-baggerarbeiten.de
-dig +short www.s-l-baggerarbeiten.de
-```
+Unter *Settings, Environment Variables* für Production und Preview
+anlegen. Die Namen sind dieselben wie im alten Serverbetrieb:
 
-## 2. Server absichern
+| Variable | Wert |
+|----------|------|
+| `SMTP_HOST` | SMTP-Server des Mailanbieters |
+| `SMTP_PORT` | `587` für STARTTLS, `465` für direktes TLS |
+| `SMTP_USERNAME` | Postfach oder Benutzername beim Anbieter |
+| `SMTP_PASSWORD` | Passwort des Postfachs |
+| `MAIL_FROM` | fester Absender, muss zum SMTP-Konto passen (SPF/DKIM) |
+| `MAIL_RECIPIENT` | Postfach, das die Anfragen bekommt |
 
-```
-adduser deploy && usermod -aG sudo deploy   # Arbeitsbenutzer statt root
-```
+Ohne diese Werte antwortet `POST /api/kontakt` mit 503, und im
+Funktions-Log steht, welche Variable fehlt.
 
-In `/etc/ssh/sshd_config`: `PasswordAuthentication no` und
-`PermitRootLogin no` setzen (SSH-Schlüssel vorher hinterlegen), danach
-`systemctl restart ssh`. Automatische Sicherheitsupdates einschalten:
+## 3. Prüfen
 
-```
-sudo apt install unattended-upgrades
-sudo dpkg-reconfigure -plow unattended-upgrades
-```
+Auf der Preview-URL, vor jeder DNS-Änderung:
 
-Firewall: nur SSH, HTTP und HTTPS öffnen.
-
-```
-sudo ufw allow OpenSSH
-sudo ufw allow 80/tcp
-sudo ufw allow 443
-sudo ufw enable
-```
-
-Docker veröffentlicht seine Ports an ufw vorbei. Weil nur Caddy Ports
-veröffentlicht (80 und 443), deckt sich das mit der Firewall-Regel.
-
-## 3. Docker installieren
-
-Docker Engine und das Compose-Plugin aus dem offiziellen Repository
-installieren: https://docs.docker.com/engine/install/ubuntu/
-
-Danach den Arbeitsbenutzer in die Docker-Gruppe aufnehmen:
+- Startseite lädt mit Hero-Bild, Logo und Galerie.
+- `/impressum` und `/datenschutz` direkt in der Adresszeile aufrufen,
+  nicht nur über die Links im Footer. Das prüft den Fallback aus
+  `vercel.json`.
+- Kontaktformular abschicken und nachsehen, ob die Mail ankommt.
+- Formular mit leeren Feldern abschicken: Es müssen die Feldmeldungen
+  erscheinen, nicht ein allgemeiner Fehler.
 
 ```
-sudo usermod -aG docker deploy
+curl -i -X POST https://<preview>.vercel.app/api/kontakt \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"","email":"kaputt","nachricht":"kurz","datenschutz":false,"website":""}'
 ```
 
-## 4. Deployen
+Die Antwort muss `400` sein und im Feld `felder` je Eingabe eine
+deutsche Meldung tragen.
 
-```
-git clone <Repo-Adresse> benito
-cd benito/docker
-cp .env.example .env
-nano .env                    # SMTP-Zugang, Adressen, ACME-E-Mail
-docker compose up -d --build
-```
+## 4. Domain umstellen
 
-Der erste Build dauert einige Minuten (Maven- und npm-Downloads).
-Danach:
+1. In Vercel unter *Settings, Domains* `s-l-baggerarbeiten.de` und
+   `www.s-l-baggerarbeiten.de` hinzufügen. Vercel zeigt die nötigen
+   DNS-Einträge an und leitet `www` auf die Hauptdomain um.
+2. Beim DNS-Anbieter den A-Record der Hauptdomain auf die von Vercel
+   genannte Adresse ändern, `www` als CNAME auf den Vercel-Host.
+3. Warten, bis Vercel beide Domains als *Valid Configuration* führt und
+   die Zertifikate ausgestellt sind.
+4. Die veröffentlichte Seite noch einmal wie unter Schritt 3 prüfen,
+   diesmal unter der echten Domain.
 
-```
-docker compose ps            # alle Dienste "healthy"
-docker compose logs caddy    # Zertifikatsausstellung im Blick
-```
+Den alten Server erst danach abschalten, mit einigen Tagen Abstand: Bis
+die DNS-Änderung überall angekommen ist, landen Besucher noch dort.
 
-## 5. Prüfen
+## 5. Zurückrollen
 
-```
-curl -I  https://s-l-baggerarbeiten.de        # 200, gültiges Zertifikat
-curl -I  http://s-l-baggerarbeiten.de         # Umleitung auf https
-curl -I  https://www.s-l-baggerarbeiten.de    # Umleitung auf die Hauptdomain
-```
+Zwei Wege, je nachdem was kaputt ist:
 
-Anschließend im Browser das Kontaktformular absenden und prüfen, dass
-die Mail beim Empfänger ankommt. Landet sie im Spam-Ordner, fehlen
-SPF- oder DKIM-Einträge für die Absenderadresse; die Werte stellt der
-SMTP-Anbieter bereit.
+- **Schlechtes Deployment.** In Vercel unter *Deployments* das letzte
+  funktionierende auswählen und *Promote to Production*.
+- **Vercel insgesamt.** Den A-Record zurück auf die Server-IP zeigen
+  lassen. Dafür muss der alte Server laufen, siehe
+  [deployment-server.md](deployment-server.md).
 
-Negativprobe: `curl --max-time 5 http://<Server-IP>:8080` darf keine
-Antwort liefern, Frontend und Backend sind nur über Caddy erreichbar.
+## Nach dem Umzug
 
-## Aktualisieren
-
-```
-cd benito/docker
-git pull
-docker compose up -d --build
-```
-
-Die Zertifikate liegen im Volume `caddy_data` und überleben Neubauten
-und Server-Neustarts. `docker compose down` stoppt die Seite,
-`docker compose down -v` löscht auch die Zertifikate (danach stellt
-Caddy neue aus, Let's Encrypt begrenzt das auf wenige pro Woche).
-
-## Vor dem Live-Gang
-
-- Impressum und Datenschutz: Platzhalter durch echte Daten ersetzen
-  (`frontend/src/pages/`), rechtlich prüfen lassen
-- `.env` vollständig ausgefüllt, Testmail angekommen
-- SPF/DKIM für die Absenderadresse gesetzt
+Sobald die Domain auf Vercel zeigt und ein paar Wochen ohne Zwischenfall
+vergangen sind, können `backend/` und `docker/` aus dem Repository
+verschwinden und der Server gekündigt werden. Bis dahin sind sie der
+Rückweg.

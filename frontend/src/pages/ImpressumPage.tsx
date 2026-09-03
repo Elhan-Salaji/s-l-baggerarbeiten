@@ -6,20 +6,14 @@ function ImpressumPage() {
 
   return (
     <LegalLayout>
-      <p className="notice">
-        <strong>Hinweis:</strong> Diese Seite ist eine Vorlage. Alle{' '}
-        <span className="placeholder">[Platzhalter in eckigen Klammern]</span> vor der
-        Veröffentlichung durch die echten Daten ersetzen und das Impressum rechtlich prüfen lassen.
-      </p>
-
       <h1>Impressum</h1>
 
       <h2>Angaben gemäß § 5 DDG</h2>
       <address>
-        <span className="placeholder">[Vorname Nachname]</span><br />
+        Sven Leitermann<br />
         S.L. Baggerarbeiten<br />
-        <span className="placeholder">[Straße und Hausnummer]</span><br />
-        <span className="placeholder">[PLZ]</span> <span className="placeholder">[Ort]</span>
+        Pfarrer-Schwab-Weg 4<br />
+        77948 Friesenheim
       </address>
 
       <h2>Kontakt</h2>
@@ -28,16 +22,11 @@ function ImpressumPage() {
         E-Mail: <a href="mailto:info@s-l-baggerarbeiten.de">info@s-l-baggerarbeiten.de</a>
       </p>
 
-      <h2>Umsatzsteuer-Identifikationsnummer</h2>
-      <p>
-        Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:{' '}
-        <span className="placeholder">[USt-IdNr., falls vorhanden, sonst diesen Abschnitt entfernen]</span>.
-      </p>
-
       <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
       <address>
-        <span className="placeholder">[Vorname Nachname]</span><br />
-        <span className="placeholder">[Anschrift wie oben]</span>
+        Sven Leitermann<br />
+        Pfarrer-Schwab-Weg 4<br />
+        77948 Friesenheim
       </address>
 
       <h2>Verbraucherstreitbeilegung</h2>

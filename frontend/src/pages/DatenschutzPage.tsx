@@ -6,33 +6,28 @@ function DatenschutzPage() {
 
   return (
     <LegalLayout>
-      <p className="notice">
-        <strong>Hinweis:</strong> Diese Datenschutzerklärung ist eine Vorlage. Sie deckt die
-        Standardfälle dieser Webseite ab. Ergänzen Sie die{' '}
-        <span className="placeholder">[Platzhalter]</span> und lassen Sie den Text vor der
-        Veröffentlichung rechtlich prüfen, besonders wenn Sie einen Formular-Dienst oder weitere
-        Tools einsetzen.
-      </p>
-
       <h1>Datenschutzerklärung</h1>
 
       <h2>1. Verantwortlicher</h2>
       <p>Verantwortlich für die Datenverarbeitung auf dieser Webseite ist:</p>
       <address>
-        <span className="placeholder">[Vorname Nachname]</span><br />
+        Sven Leitermann<br />
         S.L. Baggerarbeiten<br />
-        <span className="placeholder">[Straße und Hausnummer]</span><br />
-        <span className="placeholder">[PLZ]</span> <span className="placeholder">[Ort]</span><br />
+        Pfarrer-Schwab-Weg 4<br />
+        77948 Friesenheim<br />
         Telefon: <a href="tel:+4915752675620">0157 52675620</a><br />
         E-Mail: <a href="mailto:info@s-l-baggerarbeiten.de">info@s-l-baggerarbeiten.de</a>
       </address>
 
       <h2>2. Hosting und Server-Logfiles</h2>
       <p>
-        Diese Webseite wird bei <span className="placeholder">[Name des Hosting-Anbieters]</span>{' '}
-        gehostet. Der Anbieter verarbeitet in meinem Auftrag die Daten, die beim Besuch der
-        Webseite anfallen. Grundlage dafür ist ein Vertrag über Auftragsverarbeitung nach
-        Art. 28 DSGVO.
+        Diese Webseite wird bei Vercel Inc. mit Sitz in den USA gehostet, Anschrift:{' '}
+        <span className="placeholder">[Anschrift laut Auftragsverarbeitungsvertrag]</span>. Der
+        Anbieter verarbeitet in meinem Auftrag die Daten, die beim Besuch der Webseite
+        anfallen. Grundlage dafür ist ein Vertrag über Auftragsverarbeitung nach
+        Art. 28 DSGVO. Die Verarbeitung kann auch außerhalb der Europäischen Union
+        stattfinden. Der Anbieter sichert diese Übermittlung ab über:{' '}
+        <span className="placeholder">[Übermittlungsgrundlage laut Anbieter eintragen]</span>.
       </p>
       <p>Beim Aufruf der Seiten speichert der Server automatisch sogenannte Server-Logfiles. Dazu gehören:</p>
       <ul>
@@ -63,18 +58,17 @@ function DatenschutzPage() {
 
       <h2>4. Versand des Kontaktformulars</h2>
       <p>
-        Das Kontaktformular übermittelt Ihre Angaben an meinen eigenen Server. Dieser leitet sie
-        als E-Mail an mein Postfach weiter, ein externer Formular-Dienst kommt nicht zum Einsatz.
-        Für den E-Mail-Versand nutze ich den Anbieter{' '}
-        <span className="placeholder">[Name des E-Mail-Anbieters]</span>. Der Server speichert die
-        Formulardaten nicht; zur Abwehr automatisierter Anfragen zählt er kurzzeitig die Anzahl
-        der Anfragen je IP-Adresse (Rechtsgrundlage: berechtigtes Interesse am störungsfreien
+        Das Kontaktformular übermittelt Ihre Angaben an eine Funktion beim selben
+        Hosting-Anbieter. Diese leitet sie als E-Mail an mein Postfach weiter, ein externer
+        Formular-Dienst kommt nicht zum Einsatz. Für den E-Mail-Versand nutze ich den Anbieter
+        IONOS. Die Funktion speichert die Formulardaten nicht; zur Abwehr automatisierter
+        Anfragen zählt sie kurzzeitig die Anzahl der Anfragen je IP-Adresse (Rechtsgrundlage: berechtigtes Interesse am störungsfreien
         Betrieb nach Art. 6 Abs. 1 lit. f DSGVO).
       </p>
 
       <h2>5. Schriftarten</h2>
       <p>
-        Diese Webseite lädt ihre Schriftarten von meinem eigenen Server. Es besteht keine
+        Diese Webseite lädt ihre Schriftarten von derselben Adresse wie die Seite. Es besteht keine
         Verbindung zu Google Fonts oder einem anderen externen Anbieter. Beim Laden der
         Schriften werden keine Daten an Dritte übertragen.
       </p>
@@ -106,7 +100,7 @@ function DatenschutzPage() {
       </p>
 
       <p className="legal-meta">
-        Stand dieser Datenschutzerklärung: <span className="placeholder">[Monat Jahr eintragen]</span>.
+        Stand dieser Datenschutzerklärung: September 2026.
       </p>
     </LegalLayout>
   )
