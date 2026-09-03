@@ -2,82 +2,100 @@
 
 Webseite für S.L. Baggerarbeiten, einen Ein-Mann-Betrieb für
 Minibagger-Arbeiten im Ortenaukreis. Ein React-Frontend liefert den
-One-Pager samt Impressum und Datenschutz, ein Spring-Boot-Backend
-nimmt Kontaktanfragen entgegen und leitet sie per E-Mail weiter. Beide
-laufen als Container hinter Caddy unter https://s-l-baggerarbeiten.de.
+One-Pager samt Impressum und Datenschutz, eine Serverless-Funktion
+nimmt Kontaktanfragen entgegen und leitet sie per E-Mail weiter. Beides
+läuft auf Vercel unter https://s-l-baggerarbeiten.de.
 
 ## Aufbau
 
 | Bereich | Inhalt |
 |---------|--------|
 | `frontend/` | React mit Vite und TypeScript, Design und Inhalte des One-Pagers |
-| `backend/` | Spring Boot (Java 21, Maven), Kontakt-API `POST /api/kontakt` |
-| `docker/` | Compose-Dateien, Caddyfile, Umgebungsvorlage `.env.example` |
+| `frontend/api/` | Serverless-Funktion für die Kontakt-API `POST /api/kontakt` |
+| `backend/` | Spring Boot (Java 21, Maven), abgelöste Kontakt-API, siehe unten |
+| `docker/` | Compose-Dateien, Caddyfile, Umgebungsvorlage des alten Betriebs |
 | `docs/` | Architekturentscheidungen (`adr/`) und Server-Anleitung (`deployment.md`) |
 | `assets/`, `tools/` | Quellfotos und das Skript zur Bildaufbereitung |
 
 Warum das so geschnitten ist, steht in den ADRs unter `docs/adr/`,
-angefangen bei `0001-trennung-in-frontend-und-backend.md`.
+angefangen bei `0001-trennung-in-frontend-und-backend.md`. Den Umzug
+auf Vercel beschreibt `0006-betrieb-auf-vercel-statt-eigenem-server.md`.
+
+`backend/` und `docker/` beschreiben den Betrieb bis Version 2.0.2 auf
+einem eigenen Server. Sie werden nicht mehr deployt und bleiben nur so
+lange liegen, bis die Domain auf Vercel zeigt und der Rollback auf den
+alten Server nicht mehr gebraucht wird.
 
 ## Voraussetzungen
 
-- Java 21 (Maven bringt der Wrapper `./mvnw` selbst mit)
 - Node 22 oder neuer
-- Docker mit Compose-Plugin
+- Vercel CLI (`npm i -g vercel`) für die Kontakt-API im lokalen Lauf
+- Java 21 und Docker nur noch, wenn du den abgelösten Serverbetrieb
+  starten willst
 
 ## Lokale Entwicklung
 
-Mailpit fängt die Mails auf, Backend und Frontend laufen direkt auf
-dem Rechner:
+Für Design und Inhalte reicht Vite allein:
 
 ```
-cd docker   && docker compose -f compose.dev.yml up -d mailpit
-cd backend  && ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 cd frontend && npm install && npm run dev
 ```
 
-Danach: Seite auf http://localhost:5173, verschickte Mails auf
-http://localhost:8025. Der Vite-Proxy reicht `/api` an das Backend auf
-Port 8080 weiter.
+Die Seite läuft dann auf http://localhost:5173. Das Kontaktformular
+braucht die Serverless-Funktion, die kennt nur die Vercel CLI:
 
-Sind Ports auf dem Rechner belegt, lassen sich alle verschieben:
-`SERVER_PORT` für das Backend, `VITE_API_PROXY` für den Proxy,
-`MAILPIT_SMTP_PORT`/`MAILPIT_UI_PORT`/`DEV_HTTPS_PORT` für die
-Container (dann auch `SMTP_PORT` fürs Backend setzen).
+```
+cd frontend && vercel dev
+```
+
+Dieser Weg bedient Seite und `POST /api/kontakt` zusammen auf
+http://localhost:3000. Die SMTP-Zugangsdaten holt `vercel dev` aus dem
+verknüpften Projekt, `vercel env pull` legt sie als `.env.local` ab.
+Willst du beim Ausprobieren keine echten Mails verschicken, zeig
+`SMTP_HOST` und `SMTP_PORT` auf ein lokales Mailpit
+(`docker compose -f docker/compose.dev.yml up -d mailpit`, Postfach auf
+http://localhost:8025).
 
 ## Tests
 
 ```
-cd backend  && ./mvnw verify
-cd frontend && npm run build && npm run lint
+cd frontend && npm test && npm run build && npm run lint
 ```
 
-Die Backend-Tests decken Validierung, Mailversand, Honeypot und
-Rate-Limiting ab. Sie laufen auch im Docker-Build des Backends, ein
-kaputter Stand baut kein Image.
+Die Tests decken Validierung, Honeypot und Rate-Limiting der Kontakt-API
+ab, dazu die Antworten des Endpunkts von 200 bis 503. `npm run build`
+prüft nebenbei die Typen von Frontend und Funktion.
 
-## Kompletter Stack lokal
+Die JUnit-Tests des abgelösten Backends laufen weiter mit
+`cd backend && ./mvnw verify`.
+
+## Abgelöster Serverbetrieb
 
 ```
 cd docker && docker compose -f compose.dev.yml up -d --build
 ```
 
-Bringt Caddy, Frontend, Backend und Mailpit zusammen hoch, wie in
-Produktion, nur mit lokalem Zertifikat: https://localhost:8443 (die
-Zertifikatswarnung ist hier normal).
+Bringt Caddy, Frontend, Spring-Backend und Mailpit zusammen hoch, wie
+es bis Version 2.0.2 in Produktion lief, nur mit lokalem Zertifikat:
+https://localhost:8443 (die Zertifikatswarnung ist hier normal). Für
+die Arbeit an der Seite brauchst du das nicht mehr, es ist der
+Rollback-Weg auf den eigenen Server.
 
 ## Konfiguration
 
-Alle Zugangsdaten kommen aus Umgebungsvariablen. In Produktion liest
-Compose sie aus `docker/.env` (Vorlage: `docker/.env.example`, die
-echte Datei bleibt auf dem Server).
+Alle Zugangsdaten kommen aus Umgebungsvariablen. In Produktion stehen
+sie im Vercel-Projekt unter Settings, Environment Variables; lokal legt
+`vercel env pull` sie als `frontend/.env.local` ab. Ins Repository
+gehören sie nicht.
 
 | Variable | Zweck |
 |----------|-------|
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD` | SMTP-Zugang für den Mailversand |
 | `MAIL_FROM` | fester Absender, muss zum SMTP-Konto passen (SPF/DKIM) |
 | `MAIL_RECIPIENT` | Postfach des Betreibers, Empfänger der Anfragen |
-| `ACME_EMAIL` | Let's-Encrypt-Konto für Zertifikats-Hinweise |
+
+`ACME_EMAIL` brauchte nur Caddy auf dem alten Server. Auf Vercel
+kommen die Zertifikate vom Anbieter.
 
 ## Inhalte ändern
 
@@ -96,12 +114,17 @@ Navigation und Akzente.
 
 ## Kontaktformular
 
-Das Formular sendet an `POST /api/kontakt`. Das Backend validiert die
-Felder, verwirft Anfragen mit gefülltem Honeypot-Feld still und
-erlaubt 5 Anfragen je Stunde und Absender-Adresse. Gültige Anfragen
-gehen als E-Mail an `MAIL_RECIPIENT`, die Adresse aus dem Formular
-steht im Reply-To. Die Swagger-UI der API läuft im Dev-Profil auf
-http://localhost:8080/swagger-ui/index.html.
+Das Formular sendet an `POST /api/kontakt`, umgesetzt in
+`frontend/api/kontakt.ts`. Die Funktion validiert die Felder, verwirft
+Anfragen mit gefülltem Honeypot-Feld still und erlaubt 5 Anfragen je
+Stunde und Absender-Adresse. Gültige Anfragen gehen als E-Mail an
+`MAIL_RECIPIENT`, die Adresse aus dem Formular steht im Reply-To.
+Fehler kommen als ProblemDetail nach RFC 9457 zurück, mit einer
+deutschen Meldung je Feld.
+
+Das Rate-Limiting zählt im Speicher der Instanz. Vercel startet unter
+Last mehrere Instanzen nebeneinander, die getrennt zählen; der Schutz
+ist damit schwächer als auf dem alten Server (ADR 0006).
 
 ## Bilder neu erzeugen
 
@@ -121,14 +144,20 @@ hinzufügen.
 
 ## Recht
 
-Impressum und Datenschutzerklärung sind Vorlagen mit Platzhaltern in
-`[eckigen Klammern]`. Vor dem Live-Gang die echten Daten eintragen und
-beide Seiten rechtlich prüfen lassen. Beide sind im Footer verlinkt.
+Impressum und Datenschutzerklärung tragen die echten Angaben des
+Betreibers und sind im Footer verlinkt. Offen ist in der
+Datenschutzerklärung noch die Speicherdauer der Server-Logfiles, sie
+steht dort als Platzhalter in `[eckigen Klammern]`.
+
+Der Umzug betrifft den Text: Abschnitt 2 nennt den Hoster, Abschnitt 4
+den Anbieter für den Mailversand. Beides gehört nach der
+DNS-Umstellung geprüft.
 
 ## Deployment
 
-Server einrichten, DNS setzen, `docker compose up -d --build`: die
-komplette Anleitung steht in [docs/deployment.md](docs/deployment.md).
+Vercel baut bei jedem Push auf `main` und veröffentlicht das Ergebnis,
+Branches bekommen eine Preview-URL. Einrichtung, Umgebungsvariablen und
+DNS-Umstellung stehen in [docs/deployment.md](docs/deployment.md).
 
 ## Versionen
 

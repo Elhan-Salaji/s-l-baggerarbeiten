@@ -1,4 +1,9 @@
-# Server-Einrichtung für s-l-baggerarbeiten.de
+# Server-Einrichtung für s-l-baggerarbeiten.de (abgelöst)
+
+> Diese Anleitung beschreibt den Betrieb bis Version 2.0.2 auf einem
+> eigenen Server. Seit Version 3.0.0 läuft die Seite auf Vercel, siehe
+> [deployment.md](deployment.md) und ADR 0006. Der Text bleibt hier,
+> solange der alte Server als Rollback bereitsteht.
 
 Die Seite läuft auf einem eigenen Linux-Server mit Docker. Caddy holt
 die TLS-Zertifikate automatisch bei Let's Encrypt, gebaut wird direkt

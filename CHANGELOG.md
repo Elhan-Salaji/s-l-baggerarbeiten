@@ -5,6 +5,25 @@ Alle nennenswerten Änderungen an diesem Projekt stehen in dieser Datei.
 Das Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/),
 die Versionierung an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [3.0.0] - 2026-09-04
+
+### Added
+- Kontakt-API als Vercel-Serverless-Funktion (`frontend/api/kontakt.ts`): Validierung mit denselben deutschen Feldmeldungen, Honeypot, Rate-Limiting von 5 Anfragen je Stunde und Absender, Mailversand per SMTP mit Reply-To auf die Absenderadresse, Fehler als ProblemDetail nach RFC 9457.
+- `frontend/vercel.json` mit Security-Headern, Cache-Regeln und dem Fallback auf `index.html` für die Routen `/impressum` und `/datenschutz`.
+- Tests mit Vitest für Validierung, Honeypot, Rate-Limiting und die Antworten des Endpunkts (`npm test`).
+- ADR 0006 zum Umzug auf Vercel.
+
+### Changed
+- Die Seite läuft auf Vercel statt auf einem eigenen Server. Der Build entsteht bei jedem Push auf `main`, Branches bekommen eine Preview-URL.
+- Die Datenschutzerklärung nennt Vercel als Hoster.
+- ADR 0005 (Docker Compose und Caddy) ist abgelöst.
+
+### Fixed
+- Impressum und Datenschutzerklärung standen im Quellcode noch als Vorlage mit Platzhaltern, während die veröffentlichte Fassung seit Juli die echten Angaben trug. Ein Build aus dem Quellstand hätte Anschrift, Verantwortlichen und den Namen des Mailanbieters wieder durch Platzhalter ersetzt.
+
+### Deprecated
+- `backend/` und `docker/` beschreiben den abgelösten Serverbetrieb. Sie bleiben liegen, bis die Domain auf Vercel zeigt und der Rollback nicht mehr gebraucht wird.
+
 ## [2.0.2] - 2026-07-11
 
 ### Fixed

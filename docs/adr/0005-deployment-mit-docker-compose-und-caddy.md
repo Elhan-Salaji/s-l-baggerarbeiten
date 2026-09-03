@@ -2,7 +2,7 @@
 
 ## Status
 
-Akzeptiert
+Abgelöst durch [ADR 0006](0006-betrieb-auf-vercel-statt-eigenem-server.md)
 
 ## Kontext
 
