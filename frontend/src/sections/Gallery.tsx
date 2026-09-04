@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { CSSProperties } from 'react'
 import Lightbox from '../components/Lightbox'
 
 export type GalleryImage = {
@@ -8,6 +9,17 @@ export type GalleryImage = {
   alt: string
   caption: string
   captionShort: string
+}
+
+// Wie viele Rasterzeilen eine Kachel belegt. Der Faktor bildet das
+// Seitenverhältnis auf das Raster in global.css ab: Ein hohes Bild
+// bekommt mehr Zeilen als ein breites, und neue Bilder ordnen sich
+// ohne Handarbeit ein.
+const ZEILEN_JE_SEITENVERHAELTNIS = 4
+
+function zeilen(breite: number, hoehe: number): number {
+  const gewuenscht = Math.round((hoehe / breite) * ZEILEN_JE_SEITENVERHAELTNIS)
+  return Math.min(12, Math.max(2, gewuenscht))
 }
 
 // Galerie pflegen: Reihenfolge, Bilder und Bildunterschriften. Die
@@ -23,20 +35,20 @@ const IMAGES: readonly GalleryImage[] = [
     captionShort: 'Minibagger am Ortsrand',
   },
   {
-    slug: 'leitungsgraben',
-    width: 679,
-    height: 900,
-    alt: 'Roter Minibagger hebt einen schmalen Leitungsgraben im Wohngebiet aus, entlang einer gespannten Richtschnur.',
-    caption: 'Schmaler Leitungsgraben im Wohngebiet, ausgehoben entlang einer gespannten Richtschnur.',
-    captionShort: 'Leitungsgraben im Wohngebiet',
-  },
-  {
     slug: 'planum-damm',
     width: 900,
     height: 599,
     alt: 'Minibagger zieht ein ebenes Planum auf einem grasbewachsenen Damm, im Hintergrund eine Brücke.',
     caption: 'Ebenes Planum auf einem grasbewachsenen Damm, im Hintergrund eine Brücke.',
     captionShort: 'Planum auf dem Damm',
+  },
+  {
+    slug: 'leitungsgraben',
+    width: 679,
+    height: 900,
+    alt: 'Roter Minibagger hebt einen schmalen Leitungsgraben im Wohngebiet aus, entlang einer gespannten Richtschnur.',
+    caption: 'Schmaler Leitungsgraben im Wohngebiet, ausgehoben entlang einer gespannten Richtschnur.',
+    captionShort: 'Leitungsgraben im Wohngebiet',
   },
   {
     slug: 'bachlauf',
@@ -63,20 +75,20 @@ const IMAGES: readonly GalleryImage[] = [
     captionShort: 'Aushub an der Hauswand',
   },
   {
-    slug: 'uferplanum',
-    width: 900,
-    height: 405,
-    alt: 'Minibagger ebnet mit dem Planierlöffel das Ufer entlang eines kleinen Bachs.',
-    caption: 'Minibagger ebnet mit dem Planierlöffel das Ufer entlang eines kleinen Bachs.',
-    captionShort: 'Planieren am Bachufer',
-  },
-  {
     slug: 'minibagger-feldweg',
     width: 539,
     height: 900,
     alt: 'Roter Minibagger zieht eine schmale Erdbahn durch eine grüne Wiese, dahinter Hügel und blauer Himmel.',
     caption: 'Minibagger zieht eine schmale Erdbahn durch eine grüne Wiese.',
     captionShort: 'Erdbahn durchs Feld',
+  },
+  {
+    slug: 'uferplanum',
+    width: 900,
+    height: 405,
+    alt: 'Minibagger ebnet mit dem Planierlöffel das Ufer entlang eines kleinen Bachs.',
+    caption: 'Minibagger ebnet mit dem Planierlöffel das Ufer entlang eines kleinen Bachs.',
+    captionShort: 'Planieren am Bachufer',
   },
 ]
 
@@ -97,7 +109,11 @@ function Gallery() {
 
         <ul className="gallery__grid">
           {IMAGES.map((image, index) => (
-            <li className="gallery__cell" key={image.slug}>
+            <li
+              className="gallery__cell"
+              key={image.slug}
+              style={{ '--zeilen': zeilen(image.width, image.height) } as CSSProperties}
+            >
               {/* Ohne JavaScript wäre href das Ziel; hier öffnet der Klick die Lightbox. */}
               <a
                 className="gallery__item"

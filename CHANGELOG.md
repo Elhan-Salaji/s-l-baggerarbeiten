@@ -5,6 +5,12 @@ Alle nennenswerten Änderungen an diesem Projekt stehen in dieser Datei.
 Das Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/),
 die Versionierung an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [3.4.0] - 2026-09-04
+
+### Changed
+- Die Galerie liegt ab zwei Spalten in einem Zeilenraster statt im Mehrspaltenlayout. Wie viele Rasterzeilen eine Kachel belegt, leitet `Gallery.tsx` aus dem Seitenverhältnis ab, die Zeilenhöhe wächst mit der Spaltenbreite mit. Die Spalten endeten vorher bis zu 512 Pixel auseinander und liefen treppenförmig aus; jetzt sind es 87 Pixel bei drei Spalten und keine Abweichung bei zweien.
+- Reihenfolge der Galeriebilder so gewählt, dass sich die Spalten gleichmäßig füllen. Inhaltlich ändert sich nichts, nur zwei Paare tauschen die Position.
+
 ## [3.3.0] - 2026-09-04
 
 ### Added
