@@ -58,7 +58,7 @@ function Hero() {
             <span className="usp__label">Durchfahrtsbreite</span>
           </li>
           <li className="usp">
-            <span className="usp__value">Dach ab</span>
+            <span className="usp__value">Demontage Baggerdach</span>
             <span className="usp__label">passt durch Türen</span>
           </li>
         </ul>
