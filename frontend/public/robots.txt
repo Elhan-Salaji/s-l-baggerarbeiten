@@ -1,0 +1,5 @@
+# Die Seite darf vollständig indexiert werden.
+User-agent: *
+Allow: /
+
+Sitemap: https://www.s-l-baggerarbeiten.de/sitemap.xml

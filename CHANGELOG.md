@@ -5,6 +5,15 @@ Alle nennenswerten Änderungen an diesem Projekt stehen in dieser Datei.
 Das Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/),
 die Versionierung an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [3.3.0] - 2026-09-04
+
+### Added
+- `robots.txt` und `sitemap.xml` mit den drei Seiten der Anwendung.
+- Open Graph um `og:url`, `og:site_name`, Bildmaße, Bildbeschreibung und die Twitter-Card ergänzt.
+
+### Fixed
+- `og:image` und das Bild in den LocalBusiness-Daten standen als relativer Pfad. WhatsApp, Facebook und LinkedIn zeigten deshalb keine Vorschau, wenn jemand die Seite teilt. Beide Adressen sind jetzt absolut.
+
 ## [3.2.1] - 2026-09-04
 
 ### Changed
