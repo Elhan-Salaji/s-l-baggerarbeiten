@@ -609,42 +609,6 @@ button {
   gap: var(--space-md);
 }
 
-@media (min-width: 560px) {
-  .gallery__grid {
-    --galerie-spalten: 2;
-    --galerie-innen: calc(min(100vw, var(--container)) - 2 * var(--container-pad));
-    --galerie-spalte: calc(
-      (var(--galerie-innen) - (var(--galerie-spalten) - 1) * var(--space-md)) / var(--galerie-spalten)
-    );
-
-    grid-template-columns: repeat(var(--galerie-spalten), 1fr);
-    /* Die Zeilenhöhe wächst mit der Spaltenbreite mit. Der Teiler 4
-       entspricht ZEILEN_JE_SEITENVERHAELTNIS in Gallery.tsx: Eine
-       Kachel über n Zeilen ist dann n/4 mal so hoch wie breit, also
-       fast genau so hoch wie das Bild selbst. */
-    grid-auto-rows: calc(var(--galerie-spalte) / 4 - var(--space-md));
-  }
-
-  .gallery__cell {
-    grid-row: span var(--zeilen);
-  }
-
-  .gallery__item {
-    height: 100%;
-  }
-
-  .gallery__img {
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
-@media (min-width: 920px) {
-  .gallery__grid {
-    --galerie-spalten: 3;
-  }
-}
-
 .gallery__item {
   position: relative;
   display: block;
@@ -683,6 +647,51 @@ button {
 .gallery__item:focus-visible .gallery__caption {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (min-width: 560px) {
+  .gallery__grid {
+    --galerie-spalten: 2;
+    --galerie-innen: calc(min(100vw, var(--container)) - 2 * var(--container-pad));
+    --galerie-spalte: calc(
+      (var(--galerie-innen) - (var(--galerie-spalten) - 1) * var(--space-md)) / var(--galerie-spalten)
+    );
+
+    grid-template-columns: repeat(var(--galerie-spalten), 1fr);
+    /* Die Zeilenhöhe wächst mit der Spaltenbreite mit. Der Teiler 4
+       entspricht ZEILEN_JE_SEITENVERHAELTNIS in Gallery.tsx: Eine
+       Kachel über n Zeilen ist dann n/4 mal so hoch wie breit, also
+       fast genau so hoch wie das Bild selbst. */
+    grid-auto-rows: calc(var(--galerie-spalte) / 4 - var(--space-md));
+  }
+
+  .gallery__cell {
+    grid-row: span var(--zeilen);
+  }
+
+  .gallery__item {
+    height: 100%;
+  }
+
+  /* picture ist von Haus aus inline und ohne Höhe. Ohne diese Regel
+     liefe die Höhenangabe am Bild ins Leere, und bei Kacheln, die durch
+     das Zeilenraster etwas höher ausfallen als das Bild, schiene der
+     graue Hintergrund unten durch. */
+  .gallery__item picture {
+    display: block;
+    height: 100%;
+  }
+
+  .gallery__img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+@media (min-width: 920px) {
+  .gallery__grid {
+    --galerie-spalten: 3;
+  }
 }
 
 /* 9. Lightbox (per JavaScript erzeugt) --------------------------- */

@@ -5,6 +5,11 @@ Alle nennenswerten Änderungen an diesem Projekt stehen in dieser Datei.
 Das Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/),
 die Versionierung an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [3.4.1] - 2026-09-04
+
+### Fixed
+- Bei zwei Galeriebildern schien unten ein grauer Streifen durch. Das `picture`-Element zwischen Kachel und Bild ist von Haus aus inline und ohne Höhe, dadurch lief die Höhenangabe am Bild ins Leere. Zusätzlich standen die Media-Queries der Galerie vor den Basisregeln und wurden von deren `height: auto` überschrieben.
+
 ## [3.4.0] - 2026-09-04
 
 ### Changed
