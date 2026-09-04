@@ -593,27 +593,56 @@ button {
   color: var(--color-muted);
 }
 
-/* 8. Galerie (Masonry über Spalten) ------------------------------ */
+/* 8. Galerie (Zeilenraster) --------------------------------------
+   Ab zwei Spalten liegen die Bilder in einem festen Zeilenraster. Wie
+   viele Zeilen eine Kachel belegt, leitet Gallery.tsx aus dem
+   Seitenverhältnis ab und übergibt es als --zeilen. Die Spalten enden
+   dadurch fast auf gleicher Höhe, statt wie beim vorherigen
+   Mehrspaltenlayout treppenförmig auszulaufen.
+
+   Die Zeilenhöhe je Umbruch entspricht der Spaltenbreite geteilt durch
+   den Faktor in Gallery.tsx, abzüglich des Abstands. So bleibt der
+   Bildausschnitt nah am Original. */
 .gallery__grid {
-  column-count: 1;
-  column-gap: var(--space-md);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
 }
 
 @media (min-width: 560px) {
   .gallery__grid {
-    column-count: 2;
+    --galerie-spalten: 2;
+    --galerie-innen: calc(min(100vw, var(--container)) - 2 * var(--container-pad));
+    --galerie-spalte: calc(
+      (var(--galerie-innen) - (var(--galerie-spalten) - 1) * var(--space-md)) / var(--galerie-spalten)
+    );
+
+    grid-template-columns: repeat(var(--galerie-spalten), 1fr);
+    /* Die Zeilenhöhe wächst mit der Spaltenbreite mit. Der Teiler 4
+       entspricht ZEILEN_JE_SEITENVERHAELTNIS in Gallery.tsx: Eine
+       Kachel über n Zeilen ist dann n/4 mal so hoch wie breit, also
+       fast genau so hoch wie das Bild selbst. */
+    grid-auto-rows: calc(var(--galerie-spalte) / 4 - var(--space-md));
+  }
+
+  .gallery__cell {
+    grid-row: span var(--zeilen);
+  }
+
+  .gallery__item {
+    height: 100%;
+  }
+
+  .gallery__img {
+    height: 100%;
+    object-fit: cover;
   }
 }
 
 @media (min-width: 920px) {
   .gallery__grid {
-    column-count: 3;
+    --galerie-spalten: 3;
   }
-}
-
-.gallery__cell {
-  break-inside: avoid;
-  margin-bottom: var(--space-md);
 }
 
 .gallery__item {
