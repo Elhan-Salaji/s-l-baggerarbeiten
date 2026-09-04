@@ -12,12 +12,19 @@
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- Open Graph: url und Bild beim Live-Gang auf die echte Domain setzen. -->
+    <!-- Open Graph: absolute Adressen, sonst zeigen WhatsApp, Facebook und
+         LinkedIn keine Vorschau. -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="de_DE" />
+    <meta property="og:url" content="https://www.s-l-baggerarbeiten.de/" />
+    <meta property="og:site_name" content="S.L. Baggerarbeiten" />
     <meta property="og:title" content="S.L. Baggerarbeiten | Minibagger im Ortenaukreis" />
     <meta property="og:description" content="Baggerarbeiten auch an schwer zugänglichen Stellen. 1,2-Tonnen-Minibagger, nur 90 cm Durchfahrtsbreite, abnehmbares Dach." />
-    <meta property="og:image" content="/img/hero-desktop-1800.jpg" />
+    <meta property="og:image" content="https://www.s-l-baggerarbeiten.de/img/hero-desktop-1800.jpg" />
+    <meta property="og:image:width" content="1800" />
+    <meta property="og:image:height" content="810" />
+    <meta property="og:image:alt" content="Roter 1,2-Tonnen-Minibagger auf einer Wiese am Ortsrand." />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Schriften vorab laden (lokal gehostet, siehe src/styles/tokens.css). -->
     <link rel="preload" href="/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
@@ -35,7 +42,8 @@
       "@type": "LocalBusiness",
       "name": "S.L. Baggerarbeiten",
       "description": "Minibagger-Arbeiten im Ortenaukreis: Fundamentaushub, Leitungsgräben, Nivellierung und Gartenarbeiten mit einem 1,2-Tonnen-Minibagger.",
-      "image": "/img/hero-desktop-1800.jpg",
+      "url": "https://www.s-l-baggerarbeiten.de/",
+      "image": "https://www.s-l-baggerarbeiten.de/img/hero-desktop-1800.jpg",
       "telephone": "+4915752675620",
       "email": ["info@s-l-baggerarbeiten.de", "s.l.baggerarbeiten@web.de"],
       "areaServed": "Ortenaukreis"
