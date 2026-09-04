@@ -22,13 +22,13 @@ function DatenschutzPage() {
 
       <h2>2. Hosting und Server-Logfiles</h2>
       <p>
-        Diese Webseite wird bei Vercel Inc. mit Sitz in den USA gehostet, Anschrift:{' '}
-        <span className="placeholder">[Anschrift laut Auftragsverarbeitungsvertrag]</span>. Der
-        Anbieter verarbeitet in meinem Auftrag die Daten, die beim Besuch der Webseite
-        anfallen. Grundlage dafür ist ein Vertrag über Auftragsverarbeitung nach
-        Art. 28 DSGVO. Die Verarbeitung kann auch außerhalb der Europäischen Union
-        stattfinden. Der Anbieter sichert diese Übermittlung ab über:{' '}
-        <span className="placeholder">[Übermittlungsgrundlage laut Anbieter eintragen]</span>.
+        Diese Webseite wird bei der Vercel Inc., 440 N Barranca Ave #4133, Covina,
+        CA 91723, USA gehostet. Der Anbieter verarbeitet in meinem Auftrag die Daten, die
+        beim Besuch der Webseite anfallen. Grundlage dafür ist ein Vertrag über
+        Auftragsverarbeitung nach Art. 28 DSGVO. Dabei werden Daten in die USA
+        übermittelt. Dieser Vertrag schließt die Standardvertragsklauseln der
+        Europäischen Kommission ein (Modul 2, Verantwortlicher an Auftragsverarbeiter);
+        sie sind die Grundlage der Übermittlung nach Art. 46 Abs. 2 lit. c DSGVO.
       </p>
       <p>Beim Aufruf der Seiten speichert der Server automatisch sogenannte Server-Logfiles. Dazu gehören:</p>
       <ul>
@@ -39,9 +39,8 @@ function DatenschutzPage() {
       </ul>
       <p>
         Diese Daten dienen dem sicheren und stabilen Betrieb der Webseite. Rechtsgrundlage ist
-        mein berechtigtes Interesse nach Art. 6 Abs. 1 lit. f DSGVO. Die genaue Speicherdauer
-        richtet sich nach den Vorgaben des Hosting-Anbieters:{' '}
-        <span className="placeholder">[Speicherdauer laut Anbieter eintragen]</span>.
+        mein berechtigtes Interesse nach Art. 6 Abs. 1 lit. f DSGVO. Der Anbieter speichert
+        die Logdaten eine Stunde lang und löscht sie anschließend.
       </p>
 
       <h2>3. Kontaktaufnahme</h2>
