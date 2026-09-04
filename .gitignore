@@ -20,5 +20,8 @@ frontend/dist/
 # Backend (Maven)
 backend/target/
 
-# Deployment: echte Zugangsdaten bleiben lokal
-docker/.env
+# Zugangsdaten bleiben lokal, egal in welchem Verzeichnis.
+# Die Vorlage .env.example bleibt versioniert.
+.env
+.env.*
+!.env.example
