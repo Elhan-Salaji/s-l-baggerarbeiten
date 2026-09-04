@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import type { KontaktAnfrage } from './validierung'
+import type { KontaktAnfrage } from './validierung.js'
 
 /**
  * Verschickt Kontaktanfragen als E-Mail an den Betreiber. Der Versand

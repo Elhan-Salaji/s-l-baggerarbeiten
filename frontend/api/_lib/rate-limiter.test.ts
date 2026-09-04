@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { LIMIT, FENSTER_MS, RateLimiter } from './rate-limiter'
+import { LIMIT, FENSTER_MS, RateLimiter } from './rate-limiter.js'
 
 /** Steuerbare Uhr, damit die Tests kein Zeitfenster abwarten müssen. */
 function uhr(start = 0) {

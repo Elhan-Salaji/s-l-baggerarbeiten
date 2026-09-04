@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { alsAnfrage, istHoneypotAusgeloest, pruefeAnfrage } from './validierung'
+import { alsAnfrage, istHoneypotAusgeloest, pruefeAnfrage } from './validierung.js'
 
 const gueltig = {
   name: 'Sven Leitermann',

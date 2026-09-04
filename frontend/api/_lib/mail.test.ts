@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import nodemailer from 'nodemailer'
-import { MailKonfigurationFehlt, sendeKontaktmail } from './mail'
+import { MailKonfigurationFehlt, sendeKontaktmail } from './mail.js'
 
 const sendMail = vi.fn()
 
