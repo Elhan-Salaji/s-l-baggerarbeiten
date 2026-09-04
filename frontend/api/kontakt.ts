@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { RateLimiter } from './_lib/rate-limiter'
-import { sendeKontaktmail } from './_lib/mail'
-import { alsAnfrage, istHoneypotAusgeloest, pruefeAnfrage } from './_lib/validierung'
-import type { Feldmeldungen } from './_lib/validierung'
+import { RateLimiter } from './_lib/rate-limiter.js'
+import { sendeKontaktmail } from './_lib/mail.js'
+import { alsAnfrage, istHoneypotAusgeloest, pruefeAnfrage } from './_lib/validierung.js'
+import type { Feldmeldungen } from './_lib/validierung.js'
 
 /**
  * Nimmt Kontaktanfragen der Webseite entgegen. Der Aufruf ist synchron:

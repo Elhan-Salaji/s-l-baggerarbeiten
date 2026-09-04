@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import handler from './kontakt'
-import { sendeKontaktmail } from './_lib/mail'
-import { LIMIT } from './_lib/rate-limiter'
+import handler from './kontakt.js'
+import { sendeKontaktmail } from './_lib/mail.js'
+import { LIMIT } from './_lib/rate-limiter.js'
 
-vi.mock('./_lib/mail', () => ({ sendeKontaktmail: vi.fn() }))
+vi.mock('./_lib/mail.js', () => ({ sendeKontaktmail: vi.fn() }))
 
 const versand = vi.mocked(sendeKontaktmail)
 
