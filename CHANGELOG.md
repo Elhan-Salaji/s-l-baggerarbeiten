@@ -5,6 +5,11 @@ Alle nennenswerten Änderungen an diesem Projekt stehen in dieser Datei.
 Das Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/),
 die Versionierung an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [3.2.1] - 2026-09-04
+
+### Changed
+- Die Datenschutzerklärung nennt jetzt die vollständige Anschrift des Hosting-Anbieters, die Standardvertragsklauseln als Grundlage der Übermittlung in die USA und die Speicherdauer der Server-Logfiles. Damit enthält die Seite keine Platzhalter mehr.
+
 ## [3.2.0] - 2026-09-04
 
 ### Changed
