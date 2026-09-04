@@ -5,6 +5,16 @@ Alle nennenswerten Änderungen an diesem Projekt stehen in dieser Datei.
 Das Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/),
 die Versionierung an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [3.2.0] - 2026-09-04
+
+### Changed
+- Hero-Kachel heißt „Demontage Baggerdach" statt „Dach ab".
+- Der zweite Absatz im Abschnitt „Über mich" steht in der normalen Textfarbe der Seite statt in Grau.
+- Leistungen überarbeitet: „Fundamentaushub" beschreibt jetzt die Herstellung kleinerer Baugruben, „Erdbewegungen und Garten" die Erdarbeiten rund um den Garten. „Gräben und Versickerung" heißt „Gräben" und nennt Strom, Wasser und Leerrohre, „Pflaster vorbereiten" heißt „Untergrund verdichten" und nennt Platte und Plattenrüttler.
+
+### Removed
+- Die Leistungen „Leitungsarbeiten" und „Böschungen anlegen" entfallen.
+
 ## [3.1.0] - 2026-09-04
 
 ### Added
@@ -13,6 +23,12 @@ die Versionierung an [Semantic Versioning](https://semver.org/lang/de/).
 
 ### Changed
 - Absender und Empfänger der Kontaktmails stehen als Vorgabe im Code. Für den Betrieb reichen damit die vier SMTP-Variablen; `MAIL_FROM` und `MAIL_RECIPIENT` überschreiben die Vorgabe nur noch bei Bedarf.
+
+### Fixed
+- Die Kontakt-API stürzte auf Vercel beim Start mit `FUNCTION_INVOCATION_FAILED` ab. Die übersetzte Funktion läuft als ESM, dort brauchen relative Importe eine Dateiendung.
+
+### Security
+- Alle `.env`-Dateien sind von der Versionierung ausgeschlossen, nicht mehr nur `docker/.env`. Eine `.env` unter `frontend/` hätte sonst den SMTP-Zugang offengelegt.
 
 ## [3.0.0] - 2026-09-04
 

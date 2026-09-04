@@ -492,7 +492,6 @@ button {
 
 .about__main p + p {
   margin-top: var(--space-md);
-  color: var(--color-muted);
 }
 
 .about__facts {
